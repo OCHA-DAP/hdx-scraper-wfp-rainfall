@@ -12,6 +12,7 @@ from hdx.location.adminlevel import AdminLevel
 from hdx.location.country import Country
 from hdx.scraper.framework.utilities.hapi_admins import complete_admins
 from hdx.utilities.dateparse import iso_string_from_datetime, parse_date
+from hdx.utilities.dictandlist import dict_of_lists_add
 from hdx.utilities.retriever import Retrieve
 from kalendar import Dekad
 
@@ -38,7 +39,7 @@ class WFPRainfall:
         self._temp_dir = temp_dir
         self._error_handler = error_handler
         self._admins = []
-        self.data = []
+        self.data = {}
         self.dates = set()
 
     def get_pcodes(self) -> None:
@@ -93,6 +94,7 @@ class WFPRainfall:
                 errors = []
 
                 start_date = parse_date(row["date"])
+                year = start_date.year
                 dekad = Dekad.fromdatetime(start_date)
                 end_date = (dekad + 1).todate() - timedelta(days=1)
                 end_date = parse_date(str(end_date))
@@ -125,7 +127,7 @@ class WFPRainfall:
                         "warning": "|".join(warnings),
                         "error": "|".join(errors),
                     }
-                    self.data.append(hapi_row)
+                    dict_of_lists_add(self.data, year, hapi_row)
 
     def generate_dataset(self) -> Dataset:
         dataset = Dataset(
@@ -142,14 +144,21 @@ class WFPRainfall:
 
         hxl_tags = self._configuration["hxl_tags"]
         headers = list(hxl_tags.keys())
-        dataset.generate_resource_from_iterable(
-            headers,
-            self.data,
-            hxl_tags,
-            self._temp_dir,
-            "hdx_hapi_rainfall_global.csv",
-            self._configuration["resource_info"],
-            encoding="utf-8-sig",
-        )
+        for year in reversed(self.data.keys()):
+            resourcedata = {
+                "name": self._configuration["resource_name"].replace("year", str(year)),
+                "description": self._configuration["resource_description"].replace(
+                    "year", str(year)
+                ),
+            }
+            dataset.generate_resource_from_iterable(
+                headers,
+                self.data[year],
+                hxl_tags,
+                self._temp_dir,
+                f"hdx_hapi_rainfall_global_{year}.csv",
+                resourcedata,
+                encoding="utf-8-sig",
+            )
 
         return dataset

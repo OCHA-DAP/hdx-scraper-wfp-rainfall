@@ -2,7 +2,7 @@
 """wfp-rainfall scraper"""
 
 import logging
-from datetime import datetime, timedelta
+from datetime import timedelta
 from typing import List, Optional
 
 from hdx.api.configuration import Configuration

@@ -81,17 +81,24 @@ class WFPRainfall:
                 if "#" in row["ADM2_PCODE"]:
                     continue
 
+                errors = []
                 provider_adm_names = ["", ""]
                 adm_codes = ["", row["ADM2_PCODE"]]
                 adm_names = ["", ""]
-                adm_level, warnings = complete_admins(
-                    self._admins,
-                    countryiso3,
-                    provider_adm_names,
-                    adm_codes,
-                    adm_names,
-                )
-                errors = []
+                try:
+                    adm_level, warnings = complete_admins(
+                        self._admins,
+                        countryiso3,
+                        provider_adm_names,
+                        adm_codes,
+                        adm_names,
+                    )
+                except IndexError:
+                    warnings = [f"Could not match code {adm_codes[1]}"]
+                    adm_codes = ["", ""]
+                    self._error_handler.add_message(
+                        "Rainfall", dataset_name, f"Could not match code {adm_codes[1]}"
+                    )
 
                 start_date = parse_date(row["date"])
                 year = start_date.year

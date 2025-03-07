@@ -8,6 +8,8 @@ attrs==25.1.0
     #   jsonlines
     #   jsonschema
     #   referencing
+cachetools==5.5.2
+    # via google-auth
 certifi==2025.1.31
     # via requests
 chardet==5.2.0
@@ -34,15 +36,30 @@ et-xmlfile==2.0.0
     # via openpyxl
 frictionless==5.18.0
     # via hdx-python-utilities
+google-auth==2.38.0
+    # via
+    #   google-auth-oauthlib
+    #   gspread
+google-auth-oauthlib==1.2.1
+    # via gspread
+gspread==6.2.0
+    # via hdx-python-scraper
 hdx-python-api==6.3.8
-    # via hdx-scraper-wfp-rainfall (pyproject.toml)
+    # via
+    #   hdx-scraper-wfp-rainfall (pyproject.toml)
+    #   hdx-python-scraper
 hdx-python-country==3.8.8
-    # via hdx-python-api
+    # via
+    #   hdx-python-api
+    #   hdx-python-scraper
+hdx-python-scraper==2.6.3
+    # via hdx-scraper-wfp-rainfall (pyproject.toml)
 hdx-python-utilities==3.8.4
     # via
     #   hdx-scraper-wfp-rainfall (pyproject.toml)
     #   hdx-python-api
     #   hdx-python-country
+    #   hdx-python-scraper
 humanize==4.12.1
     # via frictionless
 idna==3.10
@@ -67,6 +84,8 @@ jsonschema==4.23.0
     #   tableschema-to-template
 jsonschema-specifications==2024.10.1
     # via jsonschema
+kalendar==0.1.1
+    # via hdx-scraper-wfp-rainfall (pyproject.toml)
 libhxl==5.2.2
     # via
     #   hdx-python-api
@@ -87,6 +106,8 @@ more-itertools==10.6.0
     # via inflect
 num2words==0.5.14
     # via quantulum3
+oauthlib==3.2.2
+    # via requests-oauthlib
 openpyxl==3.1.5
     # via hdx-python-utilities
 petl==1.7.15
@@ -97,6 +118,12 @@ ply==3.11
     #   libhxl
 pockets==0.9.1
     # via sphinxcontrib-napoleon
+pyasn1==0.6.1
+    # via
+    #   pyasn1-modules
+    #   rsa
+pyasn1-modules==0.4.1
+    # via google-auth
 pydantic==2.10.6
     # via frictionless
 pydantic-core==2.27.2
@@ -128,6 +155,8 @@ referencing==0.36.2
     # via
     #   jsonschema
     #   jsonschema-specifications
+regex==2024.11.6
+    # via hdx-python-scraper
 requests==2.32.3
     # via
     #   ckanapi
@@ -135,8 +164,11 @@ requests==2.32.3
     #   hdx-python-api
     #   libhxl
     #   requests-file
+    #   requests-oauthlib
 requests-file==2.1.0
     # via hdx-python-utilities
+requests-oauthlib==2.0.0
+    # via google-auth-oauthlib
 rfc3986==2.0.0
     # via frictionless
 rich==13.9.4
@@ -145,6 +177,8 @@ rpds-py==0.23.1
     # via
     #   jsonschema
     #   referencing
+rsa==4.9
+    # via google-auth
 ruamel-yaml==0.18.10
     # via hdx-python-utilities
 ruamel-yaml-clib==0.2.12

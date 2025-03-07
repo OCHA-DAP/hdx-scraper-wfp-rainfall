@@ -2,7 +2,7 @@
 """wfp-rainfall scraper"""
 
 import logging
-from datetime import timedelta
+from datetime import datetime, timedelta
 from typing import List, Optional
 
 from hdx.api.configuration import Configuration
@@ -39,7 +39,7 @@ class WFPRainfall:
         self._error_handler = error_handler
         self._admins = []
         self.data = []
-        self.dates = []
+        self.dates = set()
 
     def get_pcodes(self) -> None:
         for admin_level in [1, 2]:
@@ -95,8 +95,11 @@ class WFPRainfall:
                 start_date = parse_date(row["date"])
                 dekad = Dekad.fromdatetime(start_date)
                 end_date = (dekad + 1).todate() - timedelta(days=1)
+                end_date = parse_date(str(end_date))
+                self.dates.add(start_date)
+                self.dates.add(end_date)
                 start_date = iso_string_from_datetime(start_date)
-                end_date = end_date.isoformat()
+                end_date = iso_string_from_datetime(end_date)
 
                 for time_header, time_period in _TIME_PERIODS.items():
                     hapi_row = {

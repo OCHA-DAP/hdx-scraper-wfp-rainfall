@@ -97,19 +97,22 @@ class WFPRainfall:
                         adm_names,
                     )
                 except IndexError:
-                    warnings = [f"Could not match code {adm_codes[1]}"]
-                    adm_codes = ["", ""]
-                    self._error_handler.add_message(
-                        "Rainfall", dataset_name, f"Could not match code {adm_codes[1]}"
-                    )
-
-                version = _VERSIONS.get(row["version"])
-                if not version:
-                    errors.append(f"Could not match version {row['version']}")
                     self._error_handler.add_message(
                         "Rainfall",
                         dataset_name,
-                        f"Could not match version {row['version']}",
+                        f"Pcode unknown {adm_codes[1]}",
+                        message_type="warning",
+                    )
+                    warnings = [f"Pcode unknown {adm_codes[1]}"]
+                    adm_codes = ["", ""]
+
+                version = _VERSIONS.get(row["version"])
+                if not version:
+                    errors.append(f"Version unknown {row['version']}")
+                    self._error_handler.add_message(
+                        "Rainfall",
+                        dataset_name,
+                        f"Version unknown {row['version']}",
                     )
 
                 start_date = parse_date(row["date"])

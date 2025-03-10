@@ -24,6 +24,10 @@ _TIME_PERIODS = {
     "1": "1-month",
     "3": "3-month",
 }
+_VERSIONS = {
+    "final": "final",
+    "prelim": "preliminary",
+}
 
 
 class WFPRainfall:
@@ -82,14 +86,13 @@ class WFPRainfall:
                     continue
 
                 errors = []
-                provider_adm_names = ["", ""]
                 adm_codes = ["", row["ADM2_PCODE"]]
                 adm_names = ["", ""]
                 try:
                     adm_level, warnings = complete_admins(
                         self._admins,
                         countryiso3,
-                        provider_adm_names,
+                        ["", ""],
                         adm_codes,
                         adm_names,
                     )
@@ -98,6 +101,15 @@ class WFPRainfall:
                     adm_codes = ["", ""]
                     self._error_handler.add_message(
                         "Rainfall", dataset_name, f"Could not match code {adm_codes[1]}"
+                    )
+
+                version = _VERSIONS.get(row["version"])
+                if not version:
+                    errors.append(f"Could not match version {row['version']}")
+                    self._error_handler.add_message(
+                        "Rainfall",
+                        dataset_name,
+                        f"Could not match version {row['version']}",
                     )
 
                 start_date = parse_date(row["date"])
@@ -115,18 +127,18 @@ class WFPRainfall:
                         "location_code": countryiso3,
                         "has_hrp": hrp,
                         "in_gho": gho,
-                        "provider_admin1_name": provider_adm_names[0],
-                        "provider_admin2_name": provider_adm_names[1],
                         "admin1_code": adm_codes[0],
                         "admin1_name": adm_names[0],
                         "admin2_code": adm_codes[1],
                         "admin2_name": adm_names[1],
                         "admin_level": 2,
-                        "wfp_id": row["adm2_id"],
+                        "provider_admin2_id": row["adm2_id"],
                         "time_period": time_period,
                         "rainfall": row[f"r{time_header}h"],
                         "rainfall_long_term_average": row[f"r{time_header}h_avg"],
                         "rainfall_anomaly_pct": row[f"r{time_header}q"],
+                        "number_pixels": row["n_pixels"],
+                        "version": version,
                         "reference_period_start": start_date,
                         "reference_period_end": end_date,
                         "dataset_hdx_id": dataset_id,

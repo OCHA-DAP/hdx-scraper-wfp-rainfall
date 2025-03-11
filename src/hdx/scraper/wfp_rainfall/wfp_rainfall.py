@@ -26,6 +26,7 @@ _TIME_PERIODS = {
 }
 _VERSIONS = {
     "final": "final",
+    "forecast": "forecast",
     "prelim": "preliminary",
 }
 

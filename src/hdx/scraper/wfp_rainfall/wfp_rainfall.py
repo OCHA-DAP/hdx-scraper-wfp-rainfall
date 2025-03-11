@@ -83,11 +83,18 @@ class WFPRainfall:
                 resource["url"], dict_form=True
             )
             for row in rows:
-                if "#" in row["ADM2_PCODE"]:
+                if "#" in row["PCODE"]:
                     continue
 
                 errors = []
-                adm_codes = ["", row["ADM2_PCODE"]]
+
+                admin_level = int(row["adm_level"])
+                if admin_level == 1:
+                    provider_codes = [str(row["adm_id"]), ""]
+                    adm_codes = [row["PCODE"], ""]
+                else:
+                    provider_codes = ["", str(row["adm_id"])]
+                    adm_codes = ["", row["PCODE"]]
                 adm_names = ["", ""]
                 try:
                     adm_level, warnings = complete_admins(
@@ -135,8 +142,9 @@ class WFPRainfall:
                         "admin1_name": adm_names[0],
                         "admin2_code": adm_codes[1],
                         "admin2_name": adm_names[1],
-                        "admin_level": 2,
-                        "provider_admin2_id": row["adm2_id"],
+                        "admin_level": admin_level,
+                        "provider_admin1_code": provider_codes[0],
+                        "provider_admin2_code": provider_codes[1],
                         "time_period": time_period,
                         "rainfall": row[f"r{time_header}h"],
                         "rainfall_long_term_average": row[f"r{time_header}h_avg"],

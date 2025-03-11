@@ -64,7 +64,7 @@ class TestWFPRainfall:
                     wfp_rainfall = WFPRainfall(
                         configuration, retriever, tempdir, error_handler
                     )
-                    wfp_rainfall.download_data(["AFG"])
+                    wfp_rainfall.download_data(["MOZ"])
                     dataset = wfp_rainfall.generate_dataset()
                     dataset.update_from_yaml(
                         path=join(config_dir, "hdx_dataset_static.yaml")
@@ -83,7 +83,7 @@ class TestWFPRainfall:
                             },
                         ],
                         "groups": [{"name": "world"}],
-                        "dataset_date": "[2021-01-01T00:00:00 TO 2025-02-28T23:59:59]",
+                        "dataset_date": "[2021-01-01T00:00:00 TO 2025-03-10T23:59:59]",
                         "license_id": "cc-by",
                         "methodology": "Registry",
                         "caveats": "This dataset is refreshed every week, but the source "

@@ -201,7 +201,7 @@ sphinxcontrib-napoleon==0.7
     # via defopt
 stringcase==1.2.0
     # via frictionless
-structlog==25.1.0
+structlog==25.2.0
     # via libhxl
 tableschema-to-template==0.0.13
     # via hdx-python-utilities

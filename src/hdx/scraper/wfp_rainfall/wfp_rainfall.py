@@ -105,14 +105,15 @@ class WFPRainfall:
                         adm_names,
                     )
                 except IndexError:
+                    warnings = [f"Pcode unknown {adm_codes[1]}"]
+                    adm_codes = ["", ""]
+                for warning in warnings:
                     self._error_handler.add_message(
                         "Rainfall",
                         dataset_name,
-                        f"Pcode unknown {adm_codes[1]}",
+                        warning,
                         message_type="warning",
                     )
-                    warnings = [f"Pcode unknown {adm_codes[1]}"]
-                    adm_codes = ["", ""]
 
                 version = _VERSIONS.get(row["version"])
                 if not version:
@@ -124,7 +125,6 @@ class WFPRainfall:
                     )
 
                 start_date = parse_date(row["date"])
-                year = start_date.year
                 dekad = Dekad.fromdatetime(start_date)
                 end_date = (dekad + 1).todate() - timedelta(days=1)
                 end_date = parse_date(str(end_date))
@@ -158,7 +158,7 @@ class WFPRainfall:
                         "warning": "|".join(warnings),
                         "error": "|".join(errors),
                     }
-                    dict_of_lists_add(self.data, year, hapi_row)
+                    dict_of_lists_add(self.data, countryiso3, hapi_row)
 
     def generate_dataset(self) -> Dataset:
         dataset = Dataset(
@@ -175,19 +175,21 @@ class WFPRainfall:
 
         hxl_tags = self._configuration["hxl_tags"]
         headers = list(hxl_tags.keys())
-        for year in reversed(self.data.keys()):
+        countryiso3s = sorted(list(self.data.keys()), reverse=True)
+        for countryiso3 in countryiso3s:
+            country_name = Country.get_country_name_from_iso3(countryiso3)
             resourcedata = {
-                "name": self._configuration["resource_name"].replace("year", str(year)),
+                "name": self._configuration["resource_name"].replace("iso", countryiso3),
                 "description": self._configuration["resource_description"].replace(
-                    "year", str(year)
+                    "country", country_name
                 ),
             }
             dataset.generate_resource_from_iterable(
                 headers,
-                self.data[year],
+                self.data[countryiso3],
                 hxl_tags,
                 self._temp_dir,
-                f"hdx_hapi_rainfall_global_{year}.csv",
+                f"hdx_hapi_rainfall_{countryiso3.lower()}.csv",
                 resourcedata,
                 encoding="utf-8-sig",
             )

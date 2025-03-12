@@ -116,18 +116,19 @@ class TestWFPRainfall:
                     }
 
                     resources = dataset.get_resources()
-                    assert len(resources) == 5
+                    assert len(resources) == 1
                     assert resources[0] == {
-                        "name": "Global Climate: Rainfall (2025)",
-                        "description": "Ranfall data from HDX HAPI (2025), please see "
-                        "[the documentation](https://hdx-hapi.readthedocs.io/en/latest/"
-                        "data_usage_guides/climate/#rainfall) for more information",
+                        "name": "Global Climate: Rainfall (MOZ)",
+                        "description": "Ranfall data from HDX HAPI for Mozambique, "
+                        "please see [the documentation](https://hdx-hapi.readthedocs."
+                        "io/en/latest/data_usage_guides/climate/#rainfall) for more "
+                        "information",
                         "format": "csv",
                         "resource_type": "file.upload",
                         "url_type": "upload",
                     }
 
                     assert_files_same(
-                        join(fixtures_dir, "hdx_hapi_rainfall_global_2025.csv"),
-                        join(tempdir, "hdx_hapi_rainfall_global_2025.csv"),
+                        join(fixtures_dir, "hdx_hapi_rainfall_moz.csv"),
+                        join(tempdir, "hdx_hapi_rainfall_moz.csv"),
                     )

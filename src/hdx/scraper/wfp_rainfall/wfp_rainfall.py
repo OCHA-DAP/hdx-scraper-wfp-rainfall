@@ -19,7 +19,7 @@ from kalendar import Dekad
 logger = logging.getLogger(__name__)
 
 
-_TIME_PERIODS = {
+_AGGREGATION_PERIODS = {
     "f": "dekad",
     "1": "1-month",
     "3": "3-month",
@@ -133,7 +133,7 @@ class WFPRainfall:
                 start_date = iso_string_from_datetime(start_date)
                 end_date = iso_string_from_datetime(end_date)
 
-                for time_header, time_period in _TIME_PERIODS.items():
+                for agg_header, aggregation_period in _AGGREGATION_PERIODS.items():
                     hapi_row = {
                         "location_code": countryiso3,
                         "has_hrp": hrp,
@@ -145,10 +145,10 @@ class WFPRainfall:
                         "admin_level": admin_level,
                         "provider_admin1_code": provider_codes[0],
                         "provider_admin2_code": provider_codes[1],
-                        "time_period": time_period,
-                        "rainfall": row[f"r{time_header}h"],
-                        "rainfall_long_term_average": row[f"r{time_header}h_avg"],
-                        "rainfall_anomaly_pct": row[f"r{time_header}q"],
+                        "aggregation_period": aggregation_period,
+                        "rainfall": row[f"r{agg_header}h"],
+                        "rainfall_long_term_average": row[f"r{agg_header}h_avg"],
+                        "rainfall_anomaly_pct": row[f"r{agg_header}q"],
                         "number_pixels": row["n_pixels"],
                         "version": version,
                         "reference_period_start": start_date,

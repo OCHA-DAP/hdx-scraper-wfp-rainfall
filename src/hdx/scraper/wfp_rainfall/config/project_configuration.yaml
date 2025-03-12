@@ -15,7 +15,7 @@ hxl_tags:
   admin_level: "#adm+level"
   provider_admin1_code: "#adm1+code+provider"
   provider_admin2_code: "#adm2+code+provider"
-  time_period: "#time+period"
+  aggregation_period: "#aggregation+period"
   rainfall: "#rainfall"
   rainfall_long_term_average: "#rainfall+lta"
   rainfall_anomaly_pct: "#rainfall+anomaly+pct"

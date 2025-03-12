@@ -82,19 +82,21 @@ class WFPRainfall:
             headers, rows = self._retriever.get_tabular_rows(
                 resource["url"], dict_form=True
             )
+            pcode_header = "PCODE" if "PCODE" in headers else "ADM2_PCODE"
+            wfp_id_header = "adm_id" if "adm_id" in headers else "adm2_id"
             for row in rows:
-                if "#" in row["PCODE"]:
+                if "#" in row[pcode_header]:
                     continue
 
                 errors = []
 
-                admin_level = int(row["adm_level"])
+                admin_level = int(row.get("adm_level", 2))
                 if admin_level == 1:
-                    provider_codes = [str(row["adm_id"]), ""]
+                    provider_codes = [str(row[wfp_id_header]), ""]
                     adm_codes = [row["PCODE"], ""]
                 else:
-                    provider_codes = ["", str(row["adm_id"])]
-                    adm_codes = ["", row["PCODE"]]
+                    provider_codes = ["", str(row[wfp_id_header])]
+                    adm_codes = ["", row[pcode_header]]
                 adm_names = ["", ""]
                 try:
                     adm_level, warnings = complete_admins(

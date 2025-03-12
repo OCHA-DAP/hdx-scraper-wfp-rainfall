@@ -177,7 +177,7 @@ class WFPRainfall:
 
         hxl_tags = self._configuration["hxl_tags"]
         headers = list(hxl_tags.keys())
-        countryiso3s = sorted(list(self.data.keys()), reverse=True)
+        countryiso3s = sorted(list(self.data.keys()))
         for countryiso3 in countryiso3s:
             country_name = Country.get_country_name_from_iso3(countryiso3)
             resourcedata = {

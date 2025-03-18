@@ -12,6 +12,7 @@ from hdx.api.configuration import Configuration
 from hdx.api.utilities.hdx_error_handler import HDXErrorHandler
 from hdx.data.user import User
 from hdx.facades.infer_arguments import facade
+from hdx.utilities.dateparse import now_utc
 from hdx.utilities.downloader import Download
 from hdx.utilities.path import temp_dir
 from hdx.utilities.retriever import Retrieve
@@ -57,11 +58,26 @@ def main(
                     use_saved=use_saved,
                 )
 
+                today = now_utc()
                 wfp_rainfall = WFPRainfall(
                     configuration, retriever, temp_folder, error_handler
                 )
-                wfp_rainfall.download_data()
-                dataset = wfp_rainfall.generate_dataset()
+                wfp_rainfall.download_data(today)
+                for countryiso3 in wfp_rainfall.data:
+                    dataset = wfp_rainfall.generate_country_dataset(countryiso3)
+                    if dataset:
+                        dataset.update_from_yaml(
+                            path=join(
+                                dirname(__file__), "config", "hdx_dataset_static.yaml"
+                            )
+                        )
+                        dataset.create_in_hdx(
+                            remove_additional_resources=True,
+                            match_resource_order=False,
+                            hxl_update=False,
+                            updated_by_script=_UPDATED_BY_SCRIPT,
+                        )
+                dataset = wfp_rainfall.generate_global_dataset()
                 dataset.update_from_yaml(
                     path=join(dirname(__file__), "config", "hdx_dataset_static.yaml")
                 )

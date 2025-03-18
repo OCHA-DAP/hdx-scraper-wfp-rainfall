@@ -2,7 +2,7 @@
 #    uv pip compile pyproject.toml --resolver=backtracking -o requirements.txt
 annotated-types==0.7.0
     # via pydantic
-attrs==25.2.0
+attrs==25.3.0
     # via
     #   frictionless
     #   jsonlines
@@ -183,7 +183,7 @@ ruamel-yaml==0.18.10
     # via hdx-python-utilities
 ruamel-yaml-clib==0.2.12
     # via ruamel-yaml
-setuptools==76.0.0
+setuptools==76.1.0
     # via ckanapi
 shellingham==1.5.4
     # via typer

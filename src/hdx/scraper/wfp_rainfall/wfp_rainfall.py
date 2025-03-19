@@ -168,7 +168,7 @@ class WFPRainfall:
                         "rainfall": row[f"r{agg_header}h"],
                         "rainfall_long_term_average": row[f"r{agg_header}h_avg"],
                         "rainfall_anomaly_pct": row[f"r{agg_header}q"],
-                        "number_pixels": row["n_pixels"],
+                        "number_pixels": int(float(row["n_pixels"])),
                         "version": version,
                         "reference_period_start": start_date_iso,
                         "reference_period_end": end_date_iso,

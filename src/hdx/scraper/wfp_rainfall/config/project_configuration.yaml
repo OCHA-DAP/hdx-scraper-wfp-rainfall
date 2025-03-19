@@ -30,6 +30,12 @@ hxl_tags:
   warning: "#meta+warning"
   error: "#meta+error"
 
+hxl_tags_datasets:
+  location_code: "#country+code"
+  dataset_hdx_url: "#meta+dataset_url"
+
 tags:
   - "climate-weather"
   - "hxl"
+
+extra_notes: "\n\nNote that this dataset only contains data from the last 30 days. For the full timeseries, please visit the datasets listed in the second resource."

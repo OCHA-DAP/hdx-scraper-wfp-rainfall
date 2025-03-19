@@ -248,4 +248,30 @@ class WFPRainfall:
             encoding="utf-8-sig",
         )
 
+        country_datasets = []
+        for countryiso3 in self.data:
+            if countryiso3 == "world":
+                continue
+            row = {
+                "location_code": countryiso3,
+                "dataset_hdx_url": f"https://data.humdata.org/dataset/hdx-hapi-rainfall-{countryiso3.lower()}",
+            }
+            country_datasets.append(row)
+
+        hxl_tags = self._configuration["hxl_tags_datasets"]
+        headers = list(hxl_tags.keys())
+        resourcedata = {
+            "name": "Global Climate: Rainfall datasets",
+            "description": "Country level rainfall datasets on HDX",
+        }
+        dataset.generate_resource_from_iterable(
+            headers,
+            country_datasets,
+            hxl_tags,
+            self._temp_dir,
+            "hdx_hapi_rainfall_datasets.csv",
+            resourcedata,
+            encoding="utf-8-sig",
+        )
+
         return dataset

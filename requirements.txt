@@ -54,7 +54,7 @@ hdx-python-country==3.8.8
     #   hdx-python-scraper
 hdx-python-scraper==2.6.3
     # via hdx-scraper-wfp-rainfall (pyproject.toml)
-hdx-python-utilities==3.8.4
+hdx-python-utilities==3.8.5
     # via
     #   hdx-scraper-wfp-rainfall (pyproject.toml)
     #   hdx-python-api

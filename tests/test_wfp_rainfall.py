@@ -185,7 +185,7 @@ class TestWFPRainfall:
                         "dataset_preview": "no_preview",
                     }
                     resources = dataset.get_resources()
-                    assert len(resources) == 1
+                    assert len(resources) == 2
                     assert resources[0] == {
                         "name": "Global Climate: Rainfall",
                         "description": "Ranfall data from HDX HAPI, "

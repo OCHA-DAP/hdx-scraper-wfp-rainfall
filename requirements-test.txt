@@ -93,7 +93,7 @@ hdx-python-scraper==2.6.3
     # via
     #   -c requirements.txt
     #   hdx-scraper-wfp-rainfall (pyproject.toml)
-hdx-python-utilities==3.8.4
+hdx-python-utilities==3.8.5
     # via
     #   -c requirements.txt
     #   hdx-scraper-wfp-rainfall (pyproject.toml)

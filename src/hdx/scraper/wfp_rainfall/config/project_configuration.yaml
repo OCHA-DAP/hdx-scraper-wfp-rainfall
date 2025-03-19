@@ -1,6 +1,6 @@
 # Collector specific configuration
 
-resource_name: "Global Climate: Rainfall (year)"
+resource_name: "Climate: Rainfall (year)"
 
 resource_description: "Ranfall data (year) from HDX HAPI, please see [the documentation](https://hdx-hapi.readthedocs.io/en/latest/data_usage_guides/climate/#rainfall) for more information"
 

@@ -242,7 +242,8 @@ class WFPRainfall:
         headers = list(hxl_tags.keys())
 
         resourcedata = {
-            "name": self._configuration["resource_name"].replace(" (year)", ""),
+            "name": "Global "
+            + self._configuration["resource_name"].replace(" (year)", ""),
             "description": self._configuration["resource_description"].replace(
                 " (year)", ""
             ),

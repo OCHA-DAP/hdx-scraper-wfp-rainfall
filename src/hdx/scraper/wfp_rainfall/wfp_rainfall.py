@@ -70,6 +70,7 @@ class WFPRainfall:
             dataset_id = dataset["id"]
             hrp = "Y" if Country.get_hrp_status_from_iso3(countryiso3) else "N"
             gho = "Y" if Country.get_gho_status_from_iso3(countryiso3) else "N"
+            pcode_lookup = {}
 
             resources = [r for r in dataset.get_resources() if "5ytd" in r["name"]]
             if len(resources) == 0:
@@ -94,26 +95,34 @@ class WFPRainfall:
                 errors = []
 
                 admin_level = int(row.get("adm_level", 2))
+                pcode = row[pcode_header]
                 if admin_level == 1:
                     provider_names = ["Not provided", ""]
                     provider_codes = [str(row[wfp_id_header]), ""]
-                    adm_codes = [row["PCODE"], ""]
+                    adm_codes = [pcode, ""]
                 else:
                     provider_names = ["Not provided", "Not provided"]
                     provider_codes = ["", str(row[wfp_id_header])]
-                    adm_codes = ["", row[pcode_header]]
+                    adm_codes = ["", pcode]
                 adm_names = ["", ""]
-                try:
-                    adm_level, warnings = complete_admins(
-                        self._admins,
-                        countryiso3,
-                        ["", ""],
-                        adm_codes,
-                        adm_names,
-                    )
-                except IndexError:
-                    warnings = [f"Pcode unknown {adm_codes[1]}"]
-                    adm_codes = ["", ""]
+                if pcode in pcode_lookup:
+                    adm_codes = pcode_lookup[pcode][0]
+                    adm_names = pcode_lookup[pcode][1]
+                    warnings = pcode_lookup[pcode][2]
+                else:
+                    try:
+                        adm_level, warnings = complete_admins(
+                            self._admins,
+                            countryiso3,
+                            ["", ""],
+                            adm_codes,
+                            adm_names,
+                            fuzzy_match=False,
+                        )
+                    except IndexError:
+                        warnings = [f"Pcode unknown {adm_codes[1]}"]
+                        adm_codes = ["", ""]
+                    pcode_lookup[pcode] = (adm_codes, adm_names, warnings)
                 for warning in warnings:
                     self._error_handler.add_message(
                         "Rainfall",

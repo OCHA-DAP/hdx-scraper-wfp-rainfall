@@ -150,7 +150,13 @@ class WFPRainfall:
                             f"Version unknown {row['version']}",
                         )
                     rainfall = row[f"r{agg_header}h"]
-                    if rainfall is None:
+                    rainfall_long_term_average = row[f"r{agg_header}h_avg"]
+                    rainfall_anomaly_pct = row[f"r{agg_header}q"]
+                    if None in [
+                        rainfall,
+                        rainfall_long_term_average,
+                        rainfall_anomaly_pct,
+                    ]:
                         errors.append("Missing rainfall value")
                     hapi_row = {
                         "location_code": countryiso3,
@@ -167,8 +173,8 @@ class WFPRainfall:
                         "provider_admin2_code": provider_codes[1],
                         "aggregation_period": aggregation_period,
                         "rainfall": rainfall,
-                        "rainfall_long_term_average": row[f"r{agg_header}h_avg"],
-                        "rainfall_anomaly_pct": row[f"r{agg_header}q"],
+                        "rainfall_long_term_average": rainfall_long_term_average,
+                        "rainfall_anomaly_pct": rainfall_anomaly_pct,
                         "number_pixels": int(float(row["n_pixels"])),
                         "version": version,
                         "reference_period_start": start_date_iso,

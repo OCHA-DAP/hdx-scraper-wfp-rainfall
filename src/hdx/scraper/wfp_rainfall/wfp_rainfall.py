@@ -92,8 +92,6 @@ class WFPRainfall:
                 if "#" in row[pcode_header]:
                     continue
 
-                errors = []
-
                 admin_level = int(row.get("adm_level", 2))
                 pcode = row[pcode_header]
                 if admin_level == 1:
@@ -132,14 +130,6 @@ class WFPRainfall:
                     )
 
                 version = _VERSIONS.get(row["version"])
-                if not version:
-                    errors.append(f"Version unknown {row['version']}")
-                    self._error_handler.add_message(
-                        "Rainfall",
-                        dataset_name,
-                        f"Version unknown {row['version']}",
-                    )
-
                 start_date = parse_date(row["date"])
                 year = start_date.year
                 dekad = Dekad.fromdatetime(start_date)
@@ -151,6 +141,14 @@ class WFPRainfall:
                 end_date_iso = iso_string_from_datetime(end_date)
 
                 for agg_header, aggregation_period in _AGGREGATION_PERIODS.items():
+                    errors = []
+                    if not version:
+                        errors.append(f"Version unknown {row['version']}")
+                        self._error_handler.add_message(
+                            "Rainfall",
+                            dataset_name,
+                            f"Version unknown {row['version']}",
+                        )
                     rainfall = row[f"r{agg_header}h"]
                     if rainfall is None:
                         errors.append("Missing rainfall value")

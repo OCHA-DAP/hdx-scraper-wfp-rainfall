@@ -151,6 +151,9 @@ class WFPRainfall:
                 end_date_iso = iso_string_from_datetime(end_date)
 
                 for agg_header, aggregation_period in _AGGREGATION_PERIODS.items():
+                    rainfall = row[f"r{agg_header}h"]
+                    if rainfall is None:
+                        errors.append("Missing rainfall value")
                     hapi_row = {
                         "location_code": countryiso3,
                         "has_hrp": hrp,
@@ -165,7 +168,7 @@ class WFPRainfall:
                         "provider_admin1_code": provider_codes[0],
                         "provider_admin2_code": provider_codes[1],
                         "aggregation_period": aggregation_period,
-                        "rainfall": row[f"r{agg_header}h"],
+                        "rainfall": rainfall,
                         "rainfall_long_term_average": row[f"r{agg_header}h_avg"],
                         "rainfall_anomaly_pct": row[f"r{agg_header}q"],
                         "number_pixels": int(float(row["n_pixels"])),

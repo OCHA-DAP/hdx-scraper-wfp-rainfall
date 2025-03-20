@@ -117,7 +117,7 @@ inflect==7.5.0
     # via
     #   -c requirements.txt
     #   quantulum3
-iniconfig==2.1.0
+iniconfig==2.0.0
     # via pytest
 isodate==0.7.2
     # via
@@ -320,7 +320,7 @@ ruamel-yaml-clib==0.2.12
     # via
     #   -c requirements.txt
     #   ruamel-yaml
-setuptools==77.0.1
+setuptools==76.1.0
     # via
     #   -c requirements.txt
     #   ckanapi

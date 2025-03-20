@@ -97,9 +97,11 @@ class WFPRainfall:
                 admin_level = int(row.get("adm_level", 2))
                 pcode = row[pcode_header]
                 if admin_level == 1:
+                    provider_names = ["Not provided", ""]
                     provider_codes = [str(row[wfp_id_header]), ""]
                     adm_codes = [pcode, ""]
                 else:
+                    provider_names = ["Not provided", "Not provided"]
                     provider_codes = ["", str(row[wfp_id_header])]
                     adm_codes = ["", pcode]
                 adm_names = ["", ""]
@@ -153,8 +155,8 @@ class WFPRainfall:
                         "location_code": countryiso3,
                         "has_hrp": hrp,
                         "in_gho": gho,
-                        "provider_admin1_name": "",
-                        "provider_admin2_name": "",
+                        "provider_admin1_name": provider_names[0],
+                        "provider_admin2_name": provider_names[1],
                         "admin1_code": adm_codes[0],
                         "admin1_name": adm_names[0],
                         "admin2_code": adm_codes[1],

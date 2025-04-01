@@ -45,10 +45,7 @@ class WFPRainfall:
         self._error_handler = error_handler
         self._admins = []
         self.data = {}
-        self.dates = {
-            "countries": set(),
-            "world": set(),
-        }
+        self.dates = set()
 
     def get_pcodes(self) -> None:
         for admin_level in [1, 2]:
@@ -58,10 +55,12 @@ class WFPRainfall:
             admin.load_pcode_formats()
             self._admins.append(admin)
 
-    def download_data(self, today, countryiso3s: Optional[List] = None) -> None:
+    def download_data(self, countryiso3s: Optional[List] = None) -> None:
         self.get_pcodes()
         if not countryiso3s:
-            countryiso3s = [key for key in Country.countriesdata()["countries"]]
+            countryiso3s = [
+                key for key in Country.countriesdata()["countries"] if key != "JPN"
+            ]
         for countryiso3 in countryiso3s:
             dataset_name = f"{countryiso3.lower()}-rainfall-subnational"
             dataset = Dataset.read_from_hdx(dataset_name)
@@ -93,6 +92,8 @@ class WFPRainfall:
                     continue
 
                 admin_level = int(row.get("adm_level", 2))
+                if admin_level == 2 and countryiso3 == "BRA":
+                    continue
                 pcode = row[pcode_header]
                 if admin_level == 1:
                     provider_names = ["Not provided", ""]
@@ -132,11 +133,14 @@ class WFPRainfall:
                 version = _VERSIONS.get(row["version"])
                 start_date = parse_date(row["date"])
                 year = start_date.year
+                # TODO: expand date range
+                if year < 2025:
+                    continue
                 dekad = Dekad.fromdatetime(start_date)
                 end_date = (dekad + 1).todate() - timedelta(days=1)
                 end_date = parse_date(str(end_date))
-                self.dates["countries"].add(start_date)
-                self.dates["countries"].add(end_date)
+                self.dates.add(start_date)
+                self.dates.add(end_date)
                 start_date_iso = iso_string_from_datetime(start_date)
                 end_date_iso = iso_string_from_datetime(end_date)
 
@@ -184,53 +188,9 @@ class WFPRainfall:
                         "warning": "|".join(warnings),
                         "error": "|".join(errors),
                     }
-                    if countryiso3 not in self.data:
-                        self.data[countryiso3] = {}
-                    dict_of_lists_add(self.data[countryiso3], str(year), hapi_row)
-                    if "world" not in self.data:
-                        self.data["world"] = []
-                    if start_date >= today - timedelta(days=30):
-                        self.dates["world"].add(start_date)
-                        self.dates["world"].add(end_date)
-                        self.data["world"].append(hapi_row)
-
-    def generate_country_dataset(self, countryiso3: str) -> Optional[Dataset]:
-        if countryiso3 == "world":
-            return None
-        country_name = Country.get_country_name_from_iso3(countryiso3)
-        dataset = Dataset(
-            {
-                "name": f"hdx-hapi-rainfall-{countryiso3.lower()}",
-                "title": f"HDX HAPI - Climate: Rainfall ({country_name})",
-            }
-        )
-        dataset.add_tags(self._configuration["tags"])
-        dataset.add_country_location(countryiso3)
-        start_date = min(self.dates["countries"])
-        end_date = max(self.dates["countries"])
-        dataset.set_time_period(start_date, end_date)
-
-        hxl_tags = self._configuration["hxl_tags"]
-        headers = list(hxl_tags.keys())
-
-        for year in reversed(self.data[countryiso3]):
-            resourcedata = {
-                "name": self._configuration["resource_name"].replace("year", year),
-                "description": self._configuration["resource_description"].replace(
-                    "year", year
-                ),
-            }
-            dataset.generate_resource_from_iterable(
-                headers,
-                self.data[countryiso3][year],
-                hxl_tags,
-                self._temp_dir,
-                f"hdx_hapi_rainfall_{countryiso3.lower()}_{year}.csv",
-                resourcedata,
-                encoding="utf-8-sig",
-            )
-
-        return dataset
+                    if aggregation_period not in self.data:
+                        self.data[aggregation_period] = {}
+                    dict_of_lists_add(self.data[aggregation_period], str(year), hapi_row)
 
     def generate_global_dataset(self) -> Dataset:
         dataset = Dataset(
@@ -241,53 +201,32 @@ class WFPRainfall:
         )
         dataset.add_tags(self._configuration["tags"])
         dataset.add_other_location("world")
-        start_date = min(self.dates["world"])
-        end_date = max(self.dates["world"])
+        start_date = min(self.dates)
+        end_date = max(self.dates)
         dataset.set_time_period(start_date, end_date)
 
         hxl_tags = self._configuration["hxl_tags"]
         headers = list(hxl_tags.keys())
 
-        resourcedata = {
-            "name": "Global "
-            + self._configuration["resource_name"].replace(" (year)", ""),
-            "description": "30-day "
-            + self._configuration["resource_description"].replace(" (year)", ""),
-        }
-        dataset.generate_resource_from_iterable(
-            headers,
-            self.data["world"],
-            hxl_tags,
-            self._temp_dir,
-            "hdx_hapi_rainfall_global_30_day.csv",
-            resourcedata,
-            encoding="utf-8-sig",
-        )
-
-        country_datasets = []
-        for countryiso3 in self.data:
-            if countryiso3 == "world":
-                continue
-            row = {
-                "location_code": countryiso3,
-                "dataset_hdx_url": f"https://data.humdata.org/dataset/hdx-hapi-rainfall-{countryiso3.lower()}",
-            }
-            country_datasets.append(row)
-
-        hxl_tags = self._configuration["hxl_tags_datasets"]
-        headers = list(hxl_tags.keys())
-        resourcedata = {
-            "name": "Global Climate: Rainfall datasets",
-            "description": "Country level rainfall datasets on HDX",
-        }
-        dataset.generate_resource_from_iterable(
-            headers,
-            country_datasets,
-            hxl_tags,
-            self._temp_dir,
-            "hdx_hapi_rainfall_datasets.csv",
-            resourcedata,
-            encoding="utf-8-sig",
-        )
+        for aggregation_period in self.data:
+            years = reversed(self.data[aggregation_period].keys())
+            for year in years:
+                resourcedata = {
+                    "name": self._configuration["resource_name"].format(
+                        year=year, aggregation_period=aggregation_period
+                    ),
+                    "description": self._configuration["resource_description"].format(
+                        year=year, aggregation_period=aggregation_period
+                    ),
+                }
+                dataset.generate_resource_from_iterable(
+                    headers,
+                    self.data[aggregation_period][year],
+                    hxl_tags,
+                    self._temp_dir,
+                    f"hdx_hapi_rainfall_global_{year}_{aggregation_period}.csv",
+                    resourcedata,
+                    encoding="utf-8-sig",
+                )
 
         return dataset

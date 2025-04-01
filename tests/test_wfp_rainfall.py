@@ -111,7 +111,7 @@ class TestWFPRainfall:
                         "Errors usually mean that the data is incomplete or unusable.\n"
                         "Rows with any errors are not present in the API but are included"
                         "\nhere for transparency.\n\nNote that this dataset only "
-                        "contains data from the last 5 years.\nFor the full timeseries, "
+                        "contains data from the last year.\nFor the full timeseries, "
                         "please visit the [source datasets]\n(https://data.humdata.org/"
                         "dataset/?dataseries_name=WFP+-+Rainfall\n+Indicators+at+Subnational+Level)\n",
                         "subnational": "1",

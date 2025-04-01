@@ -59,9 +59,7 @@ class WFPRainfall:
         self.get_pcodes()
         if not countryiso3s:
             countryiso3s = [
-                key
-                for key in Country.countriesdata()["countries"]
-                if key not in ["BRA", "JPN"]
+                key for key in Country.countriesdata()["countries"] if key != "JPN"
             ]
         for countryiso3 in countryiso3s:
             dataset_name = f"{countryiso3.lower()}-rainfall-subnational"
@@ -94,6 +92,8 @@ class WFPRainfall:
                     continue
 
                 admin_level = int(row.get("adm_level", 2))
+                if admin_level == 2 and countryiso3 == "BRA":
+                    continue
                 pcode = row[pcode_header]
                 if admin_level == 1:
                     provider_names = ["Not provided", ""]

@@ -83,7 +83,7 @@ class TestWFPRainfall:
                             },
                         ],
                         "groups": [{"name": "world"}],
-                        "dataset_date": "[2021-01-01T00:00:00 TO 2025-03-10T23:59:59]",
+                        "dataset_date": "[2025-01-01T00:00:00 TO 2025-03-10T23:59:59]",
                         "license_id": "cc-by",
                         "methodology": "Registry",
                         "caveats": "This dataset is refreshed every week, but the source "
@@ -118,7 +118,7 @@ class TestWFPRainfall:
                         "dataset_preview": "no_preview",
                     }
                     resources = dataset.get_resources()
-                    assert len(resources) == 15
+                    assert len(resources) == 3
                     assert resources[0] == {
                         "name": "Global Climate: Rainfall (2025, dekad)",
                         "description": "Rainfall data (2025, dekad) from HDX HAPI, "

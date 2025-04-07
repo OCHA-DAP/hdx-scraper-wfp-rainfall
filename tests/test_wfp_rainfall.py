@@ -112,8 +112,8 @@ class TestWFPRainfall:
                         "Rows with any errors are not present in the API but are included"
                         "\nhere for transparency.\n\nNote that this dataset only "
                         "contains data from the last year.\nFor the full timeseries, "
-                        "please visit the [source datasets]\n(https://data.humdata.org/"
-                        "dataset/?dataseries_name=WFP+-+Rainfall\n+Indicators+at+Subnational+Level)\n",
+                        "please visit the\n[source datasets](https://data.humdata.org/"
+                        "dataset/?dataseries_name=WFP+-+Rainfall+Indicators+at+Subnational+Level).\n",
                         "subnational": "1",
                         "dataset_preview": "no_preview",
                     }

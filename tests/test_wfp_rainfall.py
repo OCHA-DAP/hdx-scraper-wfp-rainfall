@@ -65,7 +65,7 @@ class TestWFPRainfall:
                         configuration, retriever, tempdir, error_handler
                     )
                     wfp_rainfall.download_data(["MOZ"])
-                    dataset = wfp_rainfall.generate_global_dataset()
+                    dataset = wfp_rainfall.generate_global_dataset("dekad")
                     dataset.update_from_yaml(
                         path=join(config_dir, "hdx_dataset_static.yaml")
                     )
@@ -83,7 +83,7 @@ class TestWFPRainfall:
                             },
                         ],
                         "groups": [{"name": "world"}],
-                        "dataset_date": "[2025-01-01T00:00:00 TO 2025-03-10T23:59:59]",
+                        "dataset_date": "[2021-01-01T00:00:00 TO 2025-03-10T23:59:59]",
                         "license_id": "cc-by",
                         "methodology": "Registry",
                         "caveats": "This dataset is refreshed every week, but the source "
@@ -111,14 +111,16 @@ class TestWFPRainfall:
                         "Errors usually mean that the data is incomplete or unusable.\n"
                         "Rows with any errors are not present in the API but are included"
                         "\nhere for transparency.\n\nNote that this dataset only "
-                        "contains data from the last year.\nFor the full timeseries, "
-                        "please visit the\n[source datasets](https://data.humdata.org/"
-                        "dataset/?dataseries_name=WFP+-+Rainfall+Indicators+at+Subnational+Level).\n",
+                        "contains admin one data for non\nHRP/GHO countries. For all "
+                        "other countries both admin one and two\nare present. For the "
+                        "full set of data, please visit the\n[source datasets]"
+                        "(https://data.humdata.org/dataset/?dataseries_name=WFP+-+"
+                        "Rainfall+Indicators+at+Subnational+Level).\n",
                         "subnational": "1",
                         "dataset_preview": "no_preview",
                     }
                     resources = dataset.get_resources()
-                    assert len(resources) == 3
+                    assert len(resources) == 5
                     assert resources[0] == {
                         "name": "Global Climate: Rainfall (2025, dekad)",
                         "description": "Rainfall data (2025, dekad) from HDX HAPI, "

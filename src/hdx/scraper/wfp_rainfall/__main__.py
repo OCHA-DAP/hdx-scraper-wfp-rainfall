@@ -61,16 +61,17 @@ def main(
                     configuration, retriever, temp_folder, error_handler
                 )
                 wfp_rainfall.download_data()
-                dataset = wfp_rainfall.generate_global_dataset()
-                dataset.update_from_yaml(
-                    path=join(dirname(__file__), "config", "hdx_dataset_static.yaml")
-                )
-                dataset.create_in_hdx(
-                    remove_additional_resources=True,
-                    match_resource_order=False,
-                    hxl_update=False,
-                    updated_by_script=_UPDATED_BY_SCRIPT,
-                )
+                for aggregation_period in wfp_rainfall.data:
+                    dataset = wfp_rainfall.generate_global_dataset(aggregation_period)
+                    dataset.update_from_yaml(
+                        path=join(dirname(__file__), "config", "hdx_dataset_static.yaml")
+                    )
+                    dataset.create_in_hdx(
+                        remove_additional_resources=False,
+                        match_resource_order=False,
+                        hxl_update=False,
+                        updated_by_script=_UPDATED_BY_SCRIPT,
+                    )
 
 
 if __name__ == "__main__":

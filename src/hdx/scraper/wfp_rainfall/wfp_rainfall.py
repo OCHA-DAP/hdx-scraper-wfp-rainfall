@@ -71,7 +71,7 @@ class WFPRainfall:
             gho = "Y" if Country.get_gho_status_from_iso3(countryiso3) else "N"
             pcode_lookup = {}
 
-            resources = [r for r in dataset.get_resources() if "full" in r["name"]]
+            resources = [r for r in dataset.get_resources() if "5ytd" in r["name"]]
             if len(resources) == 0:
                 self._error_handler.add_message(
                     "Rainfall",
@@ -188,11 +188,9 @@ class WFPRainfall:
                         "warning": "|".join(warnings),
                         "error": "|".join(errors),
                     }
-                    if aggregation_period not in self.data:
-                        self.data[aggregation_period] = {}
-                    dict_of_lists_add(self.data[aggregation_period], str(year), hapi_row)
+                    dict_of_lists_add(self.data, str(year), hapi_row)
 
-    def generate_global_dataset(self, aggregation_period: str) -> Dataset:
+    def generate_global_dataset(self, year: str) -> Dataset:
         dataset = Dataset(
             {
                 "name": "hdx-hapi-rainfall",
@@ -208,24 +206,18 @@ class WFPRainfall:
         hxl_tags = self._configuration["hxl_tags"]
         headers = list(hxl_tags.keys())
 
-        years = reversed(self.data[aggregation_period].keys())
-        for year in years:
-            resourcedata = {
-                "name": self._configuration["resource_name"].format(
-                    year=year, aggregation_period=aggregation_period
-                ),
-                "description": self._configuration["resource_description"].format(
-                    year=year, aggregation_period=aggregation_period
-                ),
-            }
-            dataset.generate_resource_from_iterable(
-                headers,
-                self.data[aggregation_period][year],
-                hxl_tags,
-                self._temp_dir,
-                f"hdx_hapi_rainfall_global_{year}_{aggregation_period}.csv",
-                resourcedata,
-                encoding="utf-8-sig",
-            )
+        resourcedata = {
+            "name": self._configuration["resource_name"].format(year=year),
+            "description": self._configuration["resource_description"].format(year=year),
+        }
+        dataset.generate_resource_from_iterable(
+            headers,
+            self.data[year],
+            hxl_tags,
+            self._temp_dir,
+            f"hdx_hapi_rainfall_global_{year}.csv",
+            resourcedata,
+            encoding="utf-8-sig",
+        )
 
         return dataset

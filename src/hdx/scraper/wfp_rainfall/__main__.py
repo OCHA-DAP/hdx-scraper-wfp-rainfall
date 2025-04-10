@@ -61,8 +61,9 @@ def main(
                     configuration, retriever, temp_folder, error_handler
                 )
                 wfp_rainfall.download_data()
-                for aggregation_period in wfp_rainfall.data:
-                    dataset = wfp_rainfall.generate_global_dataset(aggregation_period)
+                years = reversed(wfp_rainfall.data.keys())
+                for year in years:
+                    dataset = wfp_rainfall.generate_global_dataset(year)
                     dataset.update_from_yaml(
                         path=join(dirname(__file__), "config", "hdx_dataset_static.yaml")
                     )

@@ -1,8 +1,8 @@
 # Collector specific configuration
 
-resource_name: "Global Climate: Rainfall ({year}, {aggregation_period})"
+resource_name: "Global Climate: Rainfall ({year})"
 
-resource_description: "Rainfall data ({year}, {aggregation_period}) from HDX HAPI, please see [the documentation](https://hdx-hapi.readthedocs.io/en/latest/data_usage_guides/climate/#rainfall) for more information"
+resource_description: "Rainfall data ({year}) from HDX HAPI, please see [the documentation](https://hdx-hapi.readthedocs.io/en/latest/data_usage_guides/climate/#rainfall) for more information"
 
 hxl_tags:
   location_code: "#country+code"

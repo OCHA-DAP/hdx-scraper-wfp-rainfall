@@ -65,7 +65,7 @@ class TestWFPRainfall:
                         configuration, retriever, tempdir, error_handler
                     )
                     wfp_rainfall.download_data(["MOZ"])
-                    dataset = wfp_rainfall.generate_global_dataset("dekad")
+                    dataset = wfp_rainfall.generate_global_dataset("2025")
                     dataset.update_from_yaml(
                         path=join(config_dir, "hdx_dataset_static.yaml")
                     )
@@ -120,10 +120,10 @@ class TestWFPRainfall:
                         "dataset_preview": "no_preview",
                     }
                     resources = dataset.get_resources()
-                    assert len(resources) == 5
+                    assert len(resources) == 1
                     assert resources[0] == {
-                        "name": "Global Climate: Rainfall (2025, dekad)",
-                        "description": "Rainfall data (2025, dekad) from HDX HAPI, "
+                        "name": "Global Climate: Rainfall (2025)",
+                        "description": "Rainfall data (2025) from HDX HAPI, "
                         "please see [the documentation](https://hdx-hapi.readthedocs."
                         "io/en/latest/data_usage_guides/climate/#rainfall) for more "
                         "information",
@@ -132,6 +132,6 @@ class TestWFPRainfall:
                         "url_type": "upload",
                     }
                     assert_files_same(
-                        join(fixtures_dir, "hdx_hapi_rainfall_global_2025_dekad.csv"),
-                        join(tempdir, "hdx_hapi_rainfall_global_2025_dekad.csv"),
+                        join(fixtures_dir, "hdx_hapi_rainfall_global_2025.csv"),
+                        join(tempdir, "hdx_hapi_rainfall_global_2025.csv"),
                     )

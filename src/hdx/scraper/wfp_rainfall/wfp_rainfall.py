@@ -135,6 +135,9 @@ class WFPRainfall:
                 version = _VERSIONS.get(row["version"])
                 start_date = parse_date(row["date"])
                 year = start_date.year
+                # TODO: expand date range
+                if year < 2025:
+                    continue
 
                 dekad = Dekad.fromdatetime(start_date)
                 end_date = (dekad + 1).todate() - timedelta(days=1)

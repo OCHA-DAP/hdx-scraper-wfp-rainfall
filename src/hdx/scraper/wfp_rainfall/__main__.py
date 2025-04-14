@@ -43,7 +43,9 @@ def main(
     logger.info(f"##### {_USER_AGENT_LOOKUP} ####")
     configuration = Configuration.read()
     if not User.check_current_user_organization_access("hdx-hapi", "create_dataset"):
-        raise PermissionError("API Token does not give access to HDX-HAPI organisation!")
+        raise PermissionError(
+            "API Token does not give access to HDX-HAPI organisation!"
+        )
 
     with HDXErrorHandler(write_to_hdx=err_to_hdx) as error_handler:
         with temp_dir(folder=_USER_AGENT_LOOKUP) as temp_folder:
@@ -61,16 +63,20 @@ def main(
                     configuration, retriever, temp_folder, error_handler
                 )
                 wfp_rainfall.download_data()
-                dataset = wfp_rainfall.generate_global_dataset()
-                dataset.update_from_yaml(
-                    path=join(dirname(__file__), "config", "hdx_dataset_static.yaml")
-                )
-                dataset.create_in_hdx(
-                    remove_additional_resources=True,
-                    match_resource_order=False,
-                    hxl_update=False,
-                    updated_by_script=_UPDATED_BY_SCRIPT,
-                )
+                years = reversed(wfp_rainfall.data.keys())
+                for year in years:
+                    dataset = wfp_rainfall.generate_global_dataset(year)
+                    dataset.update_from_yaml(
+                        path=join(
+                            dirname(__file__), "config", "hdx_dataset_static.yaml"
+                        )
+                    )
+                    dataset.create_in_hdx(
+                        remove_additional_resources=False,
+                        match_resource_order=False,
+                        hxl_update=False,
+                        updated_by_script=_UPDATED_BY_SCRIPT,
+                    )
 
 
 if __name__ == "__main__":

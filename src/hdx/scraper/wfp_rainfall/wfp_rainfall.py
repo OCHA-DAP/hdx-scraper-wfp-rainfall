@@ -92,7 +92,9 @@ class WFPRainfall:
                     continue
 
                 admin_level = int(row.get("adm_level", 2))
-                if admin_level == 2 and countryiso3 == "BRA":
+                if admin_level == 2 and (
+                    countryiso3 == "BRA" or (hrp == "N" and gho == "N")
+                ):
                     continue
                 pcode = row[pcode_header]
                 if admin_level == 1:
@@ -136,6 +138,7 @@ class WFPRainfall:
                 # TODO: expand date range
                 if year < 2025:
                     continue
+
                 dekad = Dekad.fromdatetime(start_date)
                 end_date = (dekad + 1).todate() - timedelta(days=1)
                 end_date = parse_date(str(end_date))
@@ -188,11 +191,9 @@ class WFPRainfall:
                         "warning": "|".join(warnings),
                         "error": "|".join(errors),
                     }
-                    if aggregation_period not in self.data:
-                        self.data[aggregation_period] = {}
-                    dict_of_lists_add(self.data[aggregation_period], str(year), hapi_row)
+                    dict_of_lists_add(self.data, str(year), hapi_row)
 
-    def generate_global_dataset(self) -> Dataset:
+    def generate_global_dataset(self, year: str) -> Dataset:
         dataset = Dataset(
             {
                 "name": "hdx-hapi-rainfall",
@@ -208,25 +209,20 @@ class WFPRainfall:
         hxl_tags = self._configuration["hxl_tags"]
         headers = list(hxl_tags.keys())
 
-        for aggregation_period in self.data:
-            years = reversed(self.data[aggregation_period].keys())
-            for year in years:
-                resourcedata = {
-                    "name": self._configuration["resource_name"].format(
-                        year=year, aggregation_period=aggregation_period
-                    ),
-                    "description": self._configuration["resource_description"].format(
-                        year=year, aggregation_period=aggregation_period
-                    ),
-                }
-                dataset.generate_resource_from_iterable(
-                    headers,
-                    self.data[aggregation_period][year],
-                    hxl_tags,
-                    self._temp_dir,
-                    f"hdx_hapi_rainfall_global_{year}_{aggregation_period}.csv",
-                    resourcedata,
-                    encoding="utf-8-sig",
-                )
+        resourcedata = {
+            "name": self._configuration["resource_name"].format(year=year),
+            "description": self._configuration["resource_description"].format(
+                year=year
+            ),
+        }
+        dataset.generate_resource_from_iterable(
+            headers,
+            self.data[year],
+            hxl_tags,
+            self._temp_dir,
+            f"hdx_hapi_rainfall_global_{year}.csv",
+            resourcedata,
+            encoding="utf-8-sig",
+        )
 
         return dataset

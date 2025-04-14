@@ -1,48 +1,15 @@
 from os.path import join
 
-import pytest
-from hdx.api.configuration import Configuration
 from hdx.api.utilities.hdx_error_handler import HDXErrorHandler
-from hdx.data.dataset import Dataset
 from hdx.utilities.compare import assert_files_same
 from hdx.utilities.downloader import Download
 from hdx.utilities.path import temp_dir
 from hdx.utilities.retriever import Retrieve
-from hdx.utilities.useragent import UserAgent
 
 from hdx.scraper.wfp_rainfall.wfp_rainfall import WFPRainfall
 
 
 class TestWFPRainfall:
-    @pytest.fixture(scope="function")
-    def configuration(self, config_dir):
-        UserAgent.set_global("test")
-        Configuration._create(
-            hdx_read_only=True,
-            hdx_site="prod",
-            project_config_yaml=join(config_dir, "project_configuration.yaml"),
-        )
-        return Configuration.read()
-
-    @pytest.fixture(scope="class")
-    def fixtures_dir(self):
-        return join("tests", "fixtures")
-
-    @pytest.fixture(scope="class")
-    def input_dir(self, fixtures_dir):
-        return join(fixtures_dir, "input")
-
-    @pytest.fixture(scope="function")
-    def read_dataset(self, monkeypatch, input_dir):
-        def read_from_hdx(dataset_name):
-            return Dataset.load_from_json(join(input_dir, f"dataset-{dataset_name}.json"))
-
-        monkeypatch.setattr(Dataset, "read_from_hdx", staticmethod(read_from_hdx))
-
-    @pytest.fixture(scope="class")
-    def config_dir(self, fixtures_dir):
-        return join("src", "hdx", "scraper", "wfp_rainfall", "config")
-
     def test_wfp_rainfall(
         self, configuration, fixtures_dir, input_dir, config_dir, read_dataset
     ):
@@ -65,7 +32,7 @@ class TestWFPRainfall:
                         configuration, retriever, tempdir, error_handler
                     )
                     wfp_rainfall.download_data(["MOZ"])
-                    dataset = wfp_rainfall.generate_global_dataset()
+                    dataset = wfp_rainfall.generate_global_dataset("2025")
                     dataset.update_from_yaml(
                         path=join(config_dir, "hdx_dataset_static.yaml")
                     )
@@ -111,17 +78,19 @@ class TestWFPRainfall:
                         "Errors usually mean that the data is incomplete or unusable.\n"
                         "Rows with any errors are not present in the API but are included"
                         "\nhere for transparency.\n\nNote that this dataset only "
-                        "contains data from the last year.\nFor the full timeseries, "
-                        "please visit the\n[source datasets](https://data.humdata.org/"
-                        "dataset/?dataseries_name=WFP+-+Rainfall+Indicators+at+Subnational+Level).\n",
+                        "contains admin one data for non\nHRP/GHO countries. For all "
+                        "other countries both admin one and two\nare present. For the "
+                        "full set of data, please visit the\n[source datasets]"
+                        "(https://data.humdata.org/dataset/?dataseries_name=WFP+-+"
+                        "Rainfall+Indicators+at+Subnational+Level).\n",
                         "subnational": "1",
                         "dataset_preview": "no_preview",
                     }
                     resources = dataset.get_resources()
-                    assert len(resources) == 3
+                    assert len(resources) == 1
                     assert resources[0] == {
-                        "name": "Global Climate: Rainfall (2025, dekad)",
-                        "description": "Rainfall data (2025, dekad) from HDX HAPI, "
+                        "name": "Global Climate: Rainfall (2025)",
+                        "description": "Rainfall data (2025) from HDX HAPI, "
                         "please see [the documentation](https://hdx-hapi.readthedocs."
                         "io/en/latest/data_usage_guides/climate/#rainfall) for more "
                         "information",
@@ -130,6 +99,6 @@ class TestWFPRainfall:
                         "url_type": "upload",
                     }
                     assert_files_same(
-                        join(fixtures_dir, "hdx_hapi_rainfall_global_2025_dekad.csv"),
-                        join(tempdir, "hdx_hapi_rainfall_global_2025_dekad.csv"),
+                        join(fixtures_dir, "hdx_hapi_rainfall_global_2025.csv"),
+                        join(tempdir, "hdx_hapi_rainfall_global_2025.csv"),
                     )

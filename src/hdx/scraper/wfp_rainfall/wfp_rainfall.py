@@ -211,7 +211,9 @@ class WFPRainfall:
 
         resourcedata = {
             "name": self._configuration["resource_name"].format(year=year),
-            "description": self._configuration["resource_description"].format(year=year),
+            "description": self._configuration["resource_description"].format(
+                year=year
+            ),
         }
         dataset.generate_resource_from_iterable(
             headers,

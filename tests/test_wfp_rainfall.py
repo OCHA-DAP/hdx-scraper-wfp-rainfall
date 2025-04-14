@@ -1,48 +1,15 @@
 from os.path import join
 
-import pytest
-from hdx.api.configuration import Configuration
 from hdx.api.utilities.hdx_error_handler import HDXErrorHandler
-from hdx.data.dataset import Dataset
 from hdx.utilities.compare import assert_files_same
 from hdx.utilities.downloader import Download
 from hdx.utilities.path import temp_dir
 from hdx.utilities.retriever import Retrieve
-from hdx.utilities.useragent import UserAgent
 
 from hdx.scraper.wfp_rainfall.wfp_rainfall import WFPRainfall
 
 
 class TestWFPRainfall:
-    @pytest.fixture(scope="function")
-    def configuration(self, config_dir):
-        UserAgent.set_global("test")
-        Configuration._create(
-            hdx_read_only=True,
-            hdx_site="prod",
-            project_config_yaml=join(config_dir, "project_configuration.yaml"),
-        )
-        return Configuration.read()
-
-    @pytest.fixture(scope="class")
-    def fixtures_dir(self):
-        return join("tests", "fixtures")
-
-    @pytest.fixture(scope="class")
-    def input_dir(self, fixtures_dir):
-        return join(fixtures_dir, "input")
-
-    @pytest.fixture(scope="function")
-    def read_dataset(self, monkeypatch, input_dir):
-        def read_from_hdx(dataset_name):
-            return Dataset.load_from_json(join(input_dir, f"dataset-{dataset_name}.json"))
-
-        monkeypatch.setattr(Dataset, "read_from_hdx", staticmethod(read_from_hdx))
-
-    @pytest.fixture(scope="class")
-    def config_dir(self, fixtures_dir):
-        return join("src", "hdx", "scraper", "wfp_rainfall", "config")
-
     def test_wfp_rainfall(
         self, configuration, fixtures_dir, input_dir, config_dir, read_dataset
     ):

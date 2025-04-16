@@ -79,8 +79,10 @@ class TestWFPRainfall:
                         "Rows with any errors are not present in the API but are included"
                         "\nhere for transparency.\n\nNote that this dataset only "
                         "contains admin one data for non\nHRP/GHO countries. For all "
-                        "other countries both admin one and two\nare present. For the "
-                        "full set of data, please visit the\n[source datasets]"
+                        "other countries both admin one and two\nare present (where "
+                        "available). For the time being only the current\nyear of "
+                        "rainfall data is included due to the size of the data.\n"
+                        "For the full set of data, please visit the\n[source datasets]"
                         "(https://data.humdata.org/dataset/?dataseries_name=WFP+-+"
                         "Rainfall+Indicators+at+Subnational+Level).\n",
                         "subnational": "1",

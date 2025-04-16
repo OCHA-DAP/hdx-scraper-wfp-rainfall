@@ -96,6 +96,13 @@ class WFPRainfall:
                     countryiso3 == "BRA" or (hrp == "N" and gho == "N")
                 ):
                     continue
+
+                start_date = parse_date(row["date"])
+                year = start_date.year
+                # TODO: expand date range
+                if year < 2025 and admin_level > 1:
+                    continue
+
                 pcode = row[pcode_header]
                 if admin_level == 1:
                     provider_names = ["Not provided", ""]
@@ -133,12 +140,6 @@ class WFPRainfall:
                     )
 
                 version = _VERSIONS.get(row["version"])
-                start_date = parse_date(row["date"])
-                year = start_date.year
-                # TODO: expand date range
-                if year < 2025:
-                    continue
-
                 dekad = Dekad.fromdatetime(start_date)
                 end_date = (dekad + 1).todate() - timedelta(days=1)
                 end_date = parse_date(str(end_date))

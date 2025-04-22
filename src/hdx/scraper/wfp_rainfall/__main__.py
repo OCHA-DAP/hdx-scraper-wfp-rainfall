@@ -12,6 +12,7 @@ from hdx.api.configuration import Configuration
 from hdx.api.utilities.hdx_error_handler import HDXErrorHandler
 from hdx.data.user import User
 from hdx.facades.infer_arguments import facade
+from hdx.utilities.dateparse import now_utc
 from hdx.utilities.downloader import Download
 from hdx.utilities.path import temp_dir
 from hdx.utilities.retriever import Retrieve
@@ -59,13 +60,14 @@ def main(
                     use_saved=use_saved,
                 )
 
+                today = now_utc()
                 wfp_rainfall = WFPRainfall(
-                    configuration, retriever, temp_folder, error_handler
+                    configuration, retriever, temp_folder, error_handler, today
                 )
                 wfp_rainfall.download_data()
-                years = reversed(wfp_rainfall.data.keys())
-                for year in years:
-                    dataset = wfp_rainfall.generate_global_dataset(year)
+                ytds = sorted(wfp_rainfall.data.keys())
+                for ytd in ytds:
+                    dataset = wfp_rainfall.generate_global_dataset(ytd)
                     dataset.update_from_yaml(
                         path=join(
                             dirname(__file__), "config", "hdx_dataset_static.yaml"

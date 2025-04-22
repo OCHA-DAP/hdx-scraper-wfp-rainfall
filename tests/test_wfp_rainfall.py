@@ -2,6 +2,7 @@ from os.path import join
 
 from hdx.api.utilities.hdx_error_handler import HDXErrorHandler
 from hdx.utilities.compare import assert_files_same
+from hdx.utilities.dateparse import parse_date
 from hdx.utilities.downloader import Download
 from hdx.utilities.path import temp_dir
 from hdx.utilities.retriever import Retrieve
@@ -29,10 +30,14 @@ class TestWFPRainfall:
                         use_saved=True,
                     )
                     wfp_rainfall = WFPRainfall(
-                        configuration, retriever, tempdir, error_handler
+                        configuration,
+                        retriever,
+                        tempdir,
+                        error_handler,
+                        parse_date("2025-07-01"),
                     )
                     wfp_rainfall.download_data(["MOZ"])
-                    dataset = wfp_rainfall.generate_global_dataset("2025")
+                    dataset = wfp_rainfall.generate_global_dataset("1")
                     dataset.update_from_yaml(
                         path=join(config_dir, "hdx_dataset_static.yaml")
                     )
@@ -50,7 +55,7 @@ class TestWFPRainfall:
                             },
                         ],
                         "groups": [{"name": "world"}],
-                        "dataset_date": "[2021-01-01T00:00:00 TO 2025-03-10T23:59:59]",
+                        "dataset_date": "[2024-07-01T00:00:00 TO 2025-03-10T23:59:59]",
                         "license_id": "cc-by",
                         "methodology": "Registry",
                         "caveats": "This dataset is refreshed every week, but the source "
@@ -91,8 +96,8 @@ class TestWFPRainfall:
                     resources = dataset.get_resources()
                     assert len(resources) == 1
                     assert resources[0] == {
-                        "name": "Global Climate: Rainfall (2025)",
-                        "description": "Rainfall data (2025) from HDX HAPI, "
+                        "name": "Global Climate: Rainfall (1 year(s) ago)",
+                        "description": "Rainfall data (1 year(s) ago) from HDX HAPI, "
                         "please see [the documentation](https://hdx-hapi.readthedocs."
                         "io/en/latest/data_usage_guides/climate/#rainfall) for more "
                         "information",
@@ -101,6 +106,6 @@ class TestWFPRainfall:
                         "url_type": "upload",
                     }
                     assert_files_same(
-                        join(fixtures_dir, "hdx_hapi_rainfall_global_2025.csv"),
-                        join(tempdir, "hdx_hapi_rainfall_global_2025.csv"),
+                        join(fixtures_dir, "hdx_hapi_rainfall_global_1yr.csv"),
+                        join(tempdir, "hdx_hapi_rainfall_global_1yr.csv"),
                     )

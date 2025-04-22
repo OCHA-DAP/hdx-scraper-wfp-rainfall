@@ -2,7 +2,8 @@
 """wfp-rainfall scraper"""
 
 import logging
-from datetime import timedelta
+from datetime import datetime, timedelta
+from math import ceil
 from typing import List, Optional
 
 from hdx.api.configuration import Configuration
@@ -38,11 +39,13 @@ class WFPRainfall:
         retriever: Retrieve,
         temp_dir: str,
         error_handler: HDXErrorHandler,
+        today: datetime,
     ):
         self._configuration = configuration
         self._retriever = retriever
         self._temp_dir = temp_dir
         self._error_handler = error_handler
+        self._today = today
         self._admins = []
         self.data = {}
         self.dates = set()
@@ -98,9 +101,9 @@ class WFPRainfall:
                     continue
 
                 start_date = parse_date(row["date"])
-                year = start_date.year
-                # TODO: expand date range
-                if year < 2025 and admin_level > 1:
+                days_ago = (self._today - start_date).days
+                ytd = ceil(days_ago / 365)
+                if days_ago > 365:  # TODO: allow admin1 (and admin_level > 1:)
                     continue
 
                 pcode = row[pcode_header]
@@ -192,9 +195,9 @@ class WFPRainfall:
                         "warning": "|".join(warnings),
                         "error": "|".join(errors),
                     }
-                    dict_of_lists_add(self.data, str(year), hapi_row)
+                    dict_of_lists_add(self.data, str(ytd), hapi_row)
 
-    def generate_global_dataset(self, year: str) -> Dataset:
+    def generate_global_dataset(self, ytd: str) -> Dataset:
         dataset = Dataset(
             {
                 "name": "hdx-hapi-rainfall",
@@ -211,17 +214,15 @@ class WFPRainfall:
         headers = list(hxl_tags.keys())
 
         resourcedata = {
-            "name": self._configuration["resource_name"].format(year=year),
-            "description": self._configuration["resource_description"].format(
-                year=year
-            ),
+            "name": self._configuration["resource_name"].format(ytd=ytd),
+            "description": self._configuration["resource_description"].format(ytd=ytd),
         }
         dataset.generate_resource_from_iterable(
             headers,
-            self.data[year],
+            self.data[ytd],
             hxl_tags,
             self._temp_dir,
-            f"hdx_hapi_rainfall_global_{year}.csv",
+            f"hdx_hapi_rainfall_global_{ytd}yr.csv",
             resourcedata,
             encoding="utf-8-sig",
         )

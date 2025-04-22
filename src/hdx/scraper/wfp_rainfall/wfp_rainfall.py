@@ -103,7 +103,7 @@ class WFPRainfall:
                 start_date = parse_date(row["date"])
                 days_ago = (self._today - start_date).days
                 ytd = ceil(days_ago / 365)
-                if days_ago > 365:  # TODO: allow admin1 (and admin_level > 1:)
+                if days_ago > 365 and admin_level > 1:
                     continue
 
                 pcode = row[pcode_header]
@@ -195,9 +195,9 @@ class WFPRainfall:
                         "warning": "|".join(warnings),
                         "error": "|".join(errors),
                     }
-                    dict_of_lists_add(self.data, str(ytd), hapi_row)
+                    dict_of_lists_add(self.data, ytd, hapi_row)
 
-    def generate_global_dataset(self, ytd: str) -> Dataset:
+    def generate_global_dataset(self, ytd: int) -> Dataset:
         dataset = Dataset(
             {
                 "name": "hdx-hapi-rainfall",

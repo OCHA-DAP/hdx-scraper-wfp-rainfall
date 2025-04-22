@@ -65,7 +65,7 @@ def main(
                     configuration, retriever, temp_folder, error_handler, today
                 )
                 wfp_rainfall.download_data()
-                ytds = reversed(wfp_rainfall.data.keys())
+                ytds = sorted(wfp_rainfall.data.keys())
                 for ytd in ytds:
                     dataset = wfp_rainfall.generate_global_dataset(ytd)
                     dataset.update_from_yaml(

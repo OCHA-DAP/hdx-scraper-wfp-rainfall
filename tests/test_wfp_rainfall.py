@@ -101,6 +101,7 @@ class TestWFPRainfall:
                         "please see [the documentation](https://hdx-hapi.readthedocs."
                         "io/en/latest/data_usage_guides/climate/#rainfall) for more "
                         "information",
+                        "p_coded": True,
                         "format": "csv",
                         "resource_type": "file.upload",
                         "url_type": "upload",

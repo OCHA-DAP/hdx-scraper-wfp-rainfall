@@ -216,6 +216,7 @@ class WFPRainfall:
         resourcedata = {
             "name": self._configuration["resource_name"].format(ytd=ytd),
             "description": self._configuration["resource_description"].format(ytd=ytd),
+            "p_coded": True,
         }
         dataset.generate_resource_from_iterable(
             headers,

@@ -68,7 +68,7 @@ class TestWFPRainfall:
                         "private": False,
                         "maintainer": "aa13de36-28c5-47a7-8d0b-6d7c754ba8c8",
                         "owner_org": "hdx-hapi",
-                        "data_update_frequency": 7,
+                        "data_update_frequency": 14,
                         "notes": "This dataset contains data obtained from the\n[HDX "
                         "Humanitarian API](https://hapi.humdata.org/) (HDX HAPI),\nwhich "
                         "provides standardized humanitarian indicators designed\nfor "

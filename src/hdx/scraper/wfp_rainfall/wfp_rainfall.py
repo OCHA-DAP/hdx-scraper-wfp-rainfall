@@ -14,6 +14,7 @@ from hdx.location.country import Country
 from hdx.scraper.framework.utilities.hapi_admins import complete_admins
 from hdx.utilities.dateparse import iso_string_from_datetime, parse_date
 from hdx.utilities.dictandlist import dict_of_lists_add
+from hdx.utilities.downloader import DownloadError
 from hdx.utilities.retriever import Retrieve
 from kalendar import Dekad
 
@@ -85,9 +86,17 @@ class WFPRainfall:
                 continue
             resource = resources[0]
             resource_id = resource["id"]
-            headers, rows = self._retriever.get_tabular_rows(
-                resource["url"], dict_form=True
-            )
+            try:
+                headers, rows = self._retriever.get_tabular_rows(
+                    resource["url"], dict_form=True
+                )
+            except DownloadError:
+                self._error_handler.add_message(
+                    "Rainfall",
+                    dataset_name,
+                    "Could not download resource",
+                )
+                continue
             pcode_header = "PCODE" if "PCODE" in headers else "ADM2_PCODE"
             wfp_id_header = "adm_id" if "adm_id" in headers else "adm2_id"
             for row in rows:

@@ -10,7 +10,7 @@ attrs==25.3.0
     #   referencing
 cachetools==5.5.2
     # via google-auth
-certifi==2025.4.26
+certifi==2025.7.14
     # via requests
 chardet==5.2.0
     # via frictionless
@@ -18,11 +18,9 @@ charset-normalizer==3.4.2
     # via requests
 ckanapi==4.8
     # via hdx-python-api
-click==8.1.8
+click==8.2.1
     # via typer
-cydifflib==1.2.0
-    # via hdx-python-utilities
-defopt==6.4.0
+defopt==7.0.0
     # via hdx-python-api
 dnspython==2.7.0
     # via email-validator
@@ -38,25 +36,25 @@ et-xmlfile==2.0.0
     # via openpyxl
 frictionless==5.18.1
     # via hdx-python-utilities
-google-auth==2.40.1
+google-auth==2.40.3
     # via
     #   google-auth-oauthlib
     #   gspread
 google-auth-oauthlib==1.2.2
     # via gspread
-gspread==6.2.0
+gspread==6.2.1
     # via hdx-python-scraper
-hdx-python-api==6.3.9
+hdx-python-api==6.4.5
     # via
     #   hdx-scraper-wfp-rainfall (pyproject.toml)
     #   hdx-python-scraper
-hdx-python-country==3.9.3
+hdx-python-country==3.9.6
     # via
     #   hdx-python-api
     #   hdx-python-scraper
-hdx-python-scraper==2.6.4
+hdx-python-scraper==2.6.5
     # via hdx-scraper-wfp-rainfall (pyproject.toml)
-hdx-python-utilities==3.8.6
+hdx-python-utilities==3.8.8
     # via
     #   hdx-scraper-wfp-rainfall (pyproject.toml)
     #   hdx-python-api
@@ -80,7 +78,7 @@ jsonlines==4.0.0
     # via hdx-python-utilities
 jsonpath-ng==1.7.0
     # via libhxl
-jsonschema==4.23.0
+jsonschema==4.24.0
     # via
     #   frictionless
     #   tableschema-to-template
@@ -94,11 +92,11 @@ libhxl==5.2.2
     #   hdx-python-country
 loguru==0.7.3
     # via hdx-python-utilities
-makefun==1.15.6
+makefun==1.16.0
     # via hdx-python-api
 markdown-it-py==3.0.0
     # via rich
-marko==2.1.3
+marko==2.1.4
     # via frictionless
 markupsafe==3.0.2
     # via jinja2
@@ -108,11 +106,11 @@ more-itertools==10.7.0
     # via inflect
 num2words==0.5.14
     # via quantulum3
-oauthlib==3.2.2
+oauthlib==3.3.1
     # via requests-oauthlib
 openpyxl==3.1.5
     # via hdx-python-utilities
-petl==1.7.16
+petl==1.7.17
     # via frictionless
 ply==3.11
     # via
@@ -126,11 +124,11 @@ pyasn1==0.6.1
     #   rsa
 pyasn1-modules==0.4.2
     # via google-auth
-pydantic==2.11.4
+pydantic==2.11.7
     # via frictionless
 pydantic-core==2.33.2
     # via pydantic
-pygments==2.19.1
+pygments==2.19.2
     # via rich
 pyphonetics==0.5.3
     # via hdx-python-utilities
@@ -159,7 +157,7 @@ referencing==0.36.2
     #   jsonschema-specifications
 regex==2024.11.6
     # via hdx-python-scraper
-requests==2.32.3
+requests==2.32.4
     # via
     #   ckanapi
     #   frictionless
@@ -175,17 +173,17 @@ rfc3986==2.0.0
     # via frictionless
 rich==14.0.0
     # via typer
-rpds-py==0.24.0
+rpds-py==0.26.0
     # via
     #   jsonschema
     #   referencing
 rsa==4.9.1
     # via google-auth
-ruamel-yaml==0.18.10
+ruamel-yaml==0.18.14
     # via hdx-python-utilities
 ruamel-yaml-clib==0.2.12
     # via ruamel-yaml
-setuptools==80.3.1
+setuptools==80.9.0
     # via ckanapi
 shellingham==1.5.4
     # via typer
@@ -201,7 +199,7 @@ six==1.17.0
     #   sphinxcontrib-napoleon
 sphinxcontrib-napoleon==0.7
     # via defopt
-structlog==25.3.0
+structlog==25.4.0
     # via libhxl
 tableschema-to-template==0.0.13
     # via hdx-python-utilities
@@ -211,11 +209,11 @@ tenacity==9.1.2
     # via hdx-python-country
 text-unidecode==1.3
     # via python-slugify
-typeguard==4.4.2
+typeguard==4.4.4
     # via inflect
-typer==0.15.3
+typer==0.16.0
     # via frictionless
-typing-extensions==4.13.2
+typing-extensions==4.14.1
     # via
     #   frictionless
     #   pydantic
@@ -224,13 +222,13 @@ typing-extensions==4.13.2
     #   typeguard
     #   typer
     #   typing-inspection
-typing-inspection==0.4.0
+typing-inspection==0.4.1
     # via pydantic
 unidecode==1.4.0
     # via
     #   libhxl
     #   pyphonetics
-urllib3==2.4.0
+urllib3==2.5.0
     # via
     #   libhxl
     #   requests
@@ -238,13 +236,13 @@ validators==0.35.0
     # via frictionless
 wheel==0.45.1
     # via libhxl
-xlrd==2.0.1
+xlrd==2.0.2
     # via hdx-python-utilities
 xlrd3==1.1.0
     # via libhxl
 xlsx2csv==0.8.4
     # via hdx-python-utilities
-xlsxwriter==3.2.3
+xlsxwriter==3.2.5
     # via tableschema-to-template
 xlwt==1.3.0
     # via hdx-python-utilities

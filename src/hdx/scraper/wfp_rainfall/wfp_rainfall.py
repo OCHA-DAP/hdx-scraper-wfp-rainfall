@@ -100,7 +100,8 @@ class WFPRainfall:
             pcode_header = "PCODE" if "PCODE" in headers else "ADM2_PCODE"
             wfp_id_header = "adm_id" if "adm_id" in headers else "adm2_id"
             for row in rows:
-                if "#" in row[pcode_header]:
+                row_non_null = [r for r in row if r]
+                if "#" in row_non_null[0]:
                     continue
 
                 admin_level = int(row.get("adm_level", 2))

@@ -78,7 +78,7 @@ jsonlines==4.0.0
     # via hdx-python-utilities
 jsonpath-ng==1.7.0
     # via libhxl
-jsonschema==4.24.0
+jsonschema==4.25.0
     # via
     #   frictionless
     #   tableschema-to-template

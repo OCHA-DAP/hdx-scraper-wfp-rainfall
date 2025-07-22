@@ -135,7 +135,7 @@ jsonpath-ng==1.7.0
     # via
     #   -c requirements.txt
     #   libhxl
-jsonschema==4.24.0
+jsonschema==4.25.0
     # via
     #   -c requirements.txt
     #   frictionless

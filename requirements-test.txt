@@ -4,18 +4,18 @@ annotated-types==0.7.0
     # via
     #   -c requirements.txt
     #   pydantic
-attrs==25.3.0
+attrs==25.4.0
     # via
     #   -c requirements.txt
     #   frictionless
     #   jsonlines
     #   jsonschema
     #   referencing
-cachetools==5.5.2
+cachetools==6.2.0
     # via
     #   -c requirements.txt
     #   google-auth
-certifi==2025.7.14
+certifi==2025.10.5
     # via
     #   -c requirements.txt
     #   requests
@@ -23,7 +23,7 @@ chardet==5.2.0
     # via
     #   -c requirements.txt
     #   frictionless
-charset-normalizer==3.4.2
+charset-normalizer==3.4.3
     # via
     #   -c requirements.txt
     #   requests
@@ -31,17 +31,17 @@ ckanapi==4.8
     # via
     #   -c requirements.txt
     #   hdx-python-api
-click==8.2.1
+click==8.3.0
     # via
     #   -c requirements.txt
     #   typer
-coverage==7.9.2
+coverage==7.10.7
     # via pytest-cov
 defopt==7.0.0
     # via
     #   -c requirements.txt
     #   hdx-python-api
-dnspython==2.7.0
+dnspython==2.8.0
     # via
     #   -c requirements.txt
     #   email-validator
@@ -50,11 +50,11 @@ docopt==0.6.2
     #   -c requirements.txt
     #   ckanapi
     #   num2words
-docutils==0.21.2
+docutils==0.22.2
     # via
     #   -c requirements.txt
     #   defopt
-email-validator==2.2.0
+email-validator==2.3.0
     # via
     #   -c requirements.txt
     #   hdx-python-api
@@ -66,7 +66,7 @@ frictionless==5.18.1
     # via
     #   -c requirements.txt
     #   hdx-python-utilities
-google-auth==2.40.3
+google-auth==2.41.1
     # via
     #   -c requirements.txt
     #   google-auth-oauthlib
@@ -79,12 +79,12 @@ gspread==6.2.1
     # via
     #   -c requirements.txt
     #   hdx-python-scraper
-hdx-python-api==6.4.5
+hdx-python-api==6.5.1
     # via
     #   -c requirements.txt
     #   hdx-scraper-wfp-rainfall (pyproject.toml)
     #   hdx-python-scraper
-hdx-python-country==3.9.6
+hdx-python-country==3.9.8
     # via
     #   -c requirements.txt
     #   hdx-python-api
@@ -93,14 +93,14 @@ hdx-python-scraper==2.6.5
     # via
     #   -c requirements.txt
     #   hdx-scraper-wfp-rainfall (pyproject.toml)
-hdx-python-utilities==3.8.8
+hdx-python-utilities==3.9.4
     # via
     #   -c requirements.txt
     #   hdx-scraper-wfp-rainfall (pyproject.toml)
     #   hdx-python-api
     #   hdx-python-country
     #   hdx-python-scraper
-humanize==4.12.3
+humanize==4.13.0
     # via
     #   -c requirements.txt
     #   frictionless
@@ -135,12 +135,12 @@ jsonpath-ng==1.7.0
     # via
     #   -c requirements.txt
     #   libhxl
-jsonschema==4.25.0
+jsonschema==4.25.1
     # via
     #   -c requirements.txt
     #   frictionless
     #   tableschema-to-template
-jsonschema-specifications==2025.4.1
+jsonschema-specifications==2025.9.1
     # via
     #   -c requirements.txt
     #   jsonschema
@@ -161,15 +161,15 @@ makefun==1.16.0
     # via
     #   -c requirements.txt
     #   hdx-python-api
-markdown-it-py==3.0.0
+markdown-it-py==4.0.0
     # via
     #   -c requirements.txt
     #   rich
-marko==2.1.4
+marko==2.2.0
     # via
     #   -c requirements.txt
     #   frictionless
-markupsafe==3.0.2
+markupsafe==3.0.3
     # via
     #   -c requirements.txt
     #   jinja2
@@ -177,7 +177,7 @@ mdurl==0.1.2
     # via
     #   -c requirements.txt
     #   markdown-it-py
-more-itertools==10.7.0
+more-itertools==10.8.0
     # via
     #   -c requirements.txt
     #   inflect
@@ -221,11 +221,11 @@ pyasn1-modules==0.4.2
     # via
     #   -c requirements.txt
     #   google-auth
-pydantic==2.11.7
+pydantic==2.12.0
     # via
     #   -c requirements.txt
     #   frictionless
-pydantic-core==2.33.2
+pydantic-core==2.41.1
     # via
     #   -c requirements.txt
     #   pydantic
@@ -238,11 +238,11 @@ pyphonetics==0.5.3
     # via
     #   -c requirements.txt
     #   hdx-python-utilities
-pytest==8.4.1
+pytest==8.4.2
     # via
     #   hdx-scraper-wfp-rainfall (pyproject.toml)
     #   pytest-cov
-pytest-cov==6.2.1
+pytest-cov==7.0.0
     # via hdx-scraper-wfp-rainfall (pyproject.toml)
 python-dateutil==2.9.0.post0
     # via
@@ -259,7 +259,7 @@ python-slugify==8.0.4
     #   -c requirements.txt
     #   ckanapi
     #   frictionless
-pyyaml==6.0.2
+pyyaml==6.0.3
     # via
     #   -c requirements.txt
     #   frictionless
@@ -277,11 +277,11 @@ referencing==0.36.2
     #   -c requirements.txt
     #   jsonschema
     #   jsonschema-specifications
-regex==2024.11.6
+regex==2025.9.18
     # via
     #   -c requirements.txt
     #   hdx-python-scraper
-requests==2.32.4
+requests==2.32.5
     # via
     #   -c requirements.txt
     #   ckanapi
@@ -302,11 +302,11 @@ rfc3986==2.0.0
     # via
     #   -c requirements.txt
     #   frictionless
-rich==14.0.0
+rich==14.2.0
     # via
     #   -c requirements.txt
     #   typer
-rpds-py==0.26.0
+rpds-py==0.27.1
     # via
     #   -c requirements.txt
     #   jsonschema
@@ -315,11 +315,11 @@ rsa==4.9.1
     # via
     #   -c requirements.txt
     #   google-auth
-ruamel-yaml==0.18.14
+ruamel-yaml==0.18.15
     # via
     #   -c requirements.txt
     #   hdx-python-utilities
-ruamel-yaml-clib==0.2.12
+ruamel-yaml-clib==0.2.14
     # via
     #   -c requirements.txt
     #   ruamel-yaml
@@ -335,7 +335,7 @@ simpleeval==1.0.3
     # via
     #   -c requirements.txt
     #   frictionless
-simplejson==3.20.1
+simplejson==3.20.2
     # via
     #   -c requirements.txt
     #   ckanapi
@@ -374,11 +374,11 @@ typeguard==4.4.4
     # via
     #   -c requirements.txt
     #   inflect
-typer==0.16.0
+typer==0.19.2
     # via
     #   -c requirements.txt
     #   frictionless
-typing-extensions==4.14.1
+typing-extensions==4.15.0
     # via
     #   -c requirements.txt
     #   frictionless
@@ -388,7 +388,7 @@ typing-extensions==4.14.1
     #   typeguard
     #   typer
     #   typing-inspection
-typing-inspection==0.4.1
+typing-inspection==0.4.2
     # via
     #   -c requirements.txt
     #   pydantic
@@ -422,7 +422,7 @@ xlsx2csv==0.8.4
     # via
     #   -c requirements.txt
     #   hdx-python-utilities
-xlsxwriter==3.2.5
+xlsxwriter==3.2.9
     # via
     #   -c requirements.txt
     #   tableschema-to-template

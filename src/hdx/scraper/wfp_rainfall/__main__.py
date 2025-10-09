@@ -27,14 +27,14 @@ _UPDATED_BY_SCRIPT = "HDX Scraper: WFP Rainfall"
 
 
 def main(
-    save: bool = True,
+    save: bool = False,
     use_saved: bool = False,
     err_to_hdx: bool = False,
 ) -> None:
     """Generate datasets and create them in HDX
 
     Args:
-        save (bool): Save downloaded data. Defaults to True.
+        save (bool): Save downloaded data. Defaults to False.
         use_saved (bool): Use saved data. Defaults to False.
         err_to_hdx (bool): Whether to write any errors to HDX metadata. Defaults to False.
 
@@ -43,10 +43,7 @@ def main(
     """
     logger.info(f"##### {_USER_AGENT_LOOKUP} ####")
     configuration = Configuration.read()
-    if not User.check_current_user_organization_access("hdx-hapi", "create_dataset"):
-        raise PermissionError(
-            "API Token does not give access to HDX-HAPI organisation!"
-        )
+    User.check_current_user_write_access("hdx-hapi")
 
     with HDXErrorHandler(write_to_hdx=err_to_hdx) as error_handler:
         with temp_dir(folder=_USER_AGENT_LOOKUP) as temp_folder:

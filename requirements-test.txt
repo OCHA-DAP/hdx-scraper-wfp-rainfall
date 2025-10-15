@@ -11,7 +11,7 @@ attrs==25.4.0
     #   jsonlines
     #   jsonschema
     #   referencing
-cachetools==6.2.0
+cachetools==6.2.1
     # via
     #   -c requirements.txt
     #   google-auth
@@ -23,7 +23,7 @@ chardet==5.2.0
     # via
     #   -c requirements.txt
     #   frictionless
-charset-normalizer==3.4.3
+charset-normalizer==3.4.4
     # via
     #   -c requirements.txt
     #   requests
@@ -79,7 +79,7 @@ gspread==6.2.1
     # via
     #   -c requirements.txt
     #   hdx-python-scraper
-hdx-python-api==6.5.1
+hdx-python-api==6.5.2
     # via
     #   -c requirements.txt
     #   hdx-scraper-wfp-rainfall (pyproject.toml)
@@ -87,13 +87,14 @@ hdx-python-api==6.5.1
 hdx-python-country==3.9.8
     # via
     #   -c requirements.txt
+    #   hdx-scraper-wfp-rainfall (pyproject.toml)
     #   hdx-python-api
     #   hdx-python-scraper
 hdx-python-scraper==2.6.5
     # via
     #   -c requirements.txt
     #   hdx-scraper-wfp-rainfall (pyproject.toml)
-hdx-python-utilities==3.9.4
+hdx-python-utilities==3.9.5
     # via
     #   -c requirements.txt
     #   hdx-scraper-wfp-rainfall (pyproject.toml)
@@ -104,12 +105,12 @@ humanize==4.13.0
     # via
     #   -c requirements.txt
     #   frictionless
-idna==3.10
+idna==3.11
     # via
     #   -c requirements.txt
     #   email-validator
     #   requests
-ijson==3.4.0
+ijson==3.4.0.post0
     # via
     #   -c requirements.txt
     #   hdx-python-utilities
@@ -165,7 +166,7 @@ markdown-it-py==4.0.0
     # via
     #   -c requirements.txt
     #   rich
-marko==2.2.0
+marko==2.2.1
     # via
     #   -c requirements.txt
     #   frictionless
@@ -221,11 +222,11 @@ pyasn1-modules==0.4.2
     # via
     #   -c requirements.txt
     #   google-auth
-pydantic==2.12.0
+pydantic==2.12.2
     # via
     #   -c requirements.txt
     #   frictionless
-pydantic-core==2.41.1
+pydantic-core==2.41.4
     # via
     #   -c requirements.txt
     #   pydantic
@@ -272,7 +273,7 @@ ratelimit==2.2.1
     # via
     #   -c requirements.txt
     #   hdx-python-utilities
-referencing==0.36.2
+referencing==0.37.0
     # via
     #   -c requirements.txt
     #   jsonschema
@@ -384,7 +385,6 @@ typing-extensions==4.15.0
     #   frictionless
     #   pydantic
     #   pydantic-core
-    #   referencing
     #   typeguard
     #   typer
     #   typing-inspection

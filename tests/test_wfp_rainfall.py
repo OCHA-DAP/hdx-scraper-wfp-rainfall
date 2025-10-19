@@ -7,7 +7,7 @@ from hdx.utilities.downloader import Download
 from hdx.utilities.path import temp_dir
 from hdx.utilities.retriever import Retrieve
 
-from hdx.scraper.wfp_rainfall.wfp_rainfall import WFPRainfall
+from hdx.scraper.wfp_rainfall.pipeline import Pipeline
 
 
 class TestWFPRainfall:
@@ -29,7 +29,7 @@ class TestWFPRainfall:
                         save=False,
                         use_saved=True,
                     )
-                    wfp_rainfall = WFPRainfall(
+                    wfp_rainfall = Pipeline(
                         configuration,
                         retriever,
                         tempdir,

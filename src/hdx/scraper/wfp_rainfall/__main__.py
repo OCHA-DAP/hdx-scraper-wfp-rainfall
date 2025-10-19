@@ -6,7 +6,7 @@ script then creates in HDX.
 """
 
 import logging
-from os.path import dirname, expanduser, join
+from os.path import expanduser, join
 
 from hdx.api.configuration import Configuration
 from hdx.api.utilities.hdx_error_handler import HDXErrorHandler
@@ -14,10 +14,10 @@ from hdx.data.user import User
 from hdx.facades.infer_arguments import facade
 from hdx.utilities.dateparse import now_utc
 from hdx.utilities.downloader import Download
-from hdx.utilities.path import temp_dir
+from hdx.utilities.path import script_dir_plus_file, temp_dir
 from hdx.utilities.retriever import Retrieve
 
-from hdx.scraper.wfp_rainfall.wfp_rainfall import WFPRainfall
+from hdx.scraper.wfp_rainfall.pipeline import Pipeline
 
 logger = logging.getLogger(__name__)
 
@@ -58,7 +58,7 @@ def main(
                 )
 
                 today = now_utc()
-                wfp_rainfall = WFPRainfall(
+                wfp_rainfall = Pipeline(
                     configuration, retriever, temp_folder, error_handler, today
                 )
                 wfp_rainfall.download_data()
@@ -66,8 +66,8 @@ def main(
                 for ytd in ytds:
                     dataset = wfp_rainfall.generate_global_dataset(ytd)
                     dataset.update_from_yaml(
-                        path=join(
-                            dirname(__file__), "config", "hdx_dataset_static.yaml"
+                        path=script_dir_plus_file(
+                            join("config", "hdx_dataset_static.yaml"), main
                         )
                     )
                     dataset.create_in_hdx(
@@ -83,7 +83,7 @@ if __name__ == "__main__":
         main,
         user_agent_config_yaml=join(expanduser("~"), ".useragents.yaml"),
         user_agent_lookup=_USER_AGENT_LOOKUP,
-        project_config_yaml=join(
-            dirname(__file__), "config", "project_configuration.yaml"
+        project_config_yaml=script_dir_plus_file(
+            join("config", "project_configuration.yaml"), main
         ),
     )

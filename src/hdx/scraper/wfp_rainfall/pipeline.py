@@ -33,7 +33,7 @@ _VERSIONS = {
 }
 
 
-class WFPRainfall:
+class Pipeline:
     def __init__(
         self,
         configuration: Configuration,
@@ -228,13 +228,12 @@ class WFPRainfall:
             "description": self._configuration["resource_description"].format(ytd=ytd),
             "p_coded": True,
         }
-        dataset.generate_resource_from_iterable(
-            headers,
-            self.data[ytd],
-            hxl_tags,
+        dataset.generate_resource(
             self._temp_dir,
             f"hdx_hapi_rainfall_global_{ytd}yr.csv",
+            self.data[ytd],
             resourcedata,
+            headers,
             encoding="utf-8-sig",
         )
 

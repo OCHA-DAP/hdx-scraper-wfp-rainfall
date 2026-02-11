@@ -54,8 +54,7 @@ class Pipeline:
     def get_pcodes(self) -> None:
         for admin_level in [1, 2]:
             admin = AdminLevel(admin_level=admin_level, retriever=self._retriever)
-            dataset = admin.get_libhxl_dataset(retriever=self._retriever)
-            admin.setup_from_libhxl_dataset(dataset)
+            admin.setup_from_url()
             admin.load_pcode_formats()
             self._admins.append(admin)
 

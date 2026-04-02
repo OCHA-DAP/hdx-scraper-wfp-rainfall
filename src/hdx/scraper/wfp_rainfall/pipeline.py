@@ -219,9 +219,6 @@ class Pipeline:
         end_date = max(self.dates)
         dataset.set_time_period(start_date, end_date)
 
-        hxl_tags = self._configuration["hxl_tags"]
-        headers = list(hxl_tags.keys())
-
         resourcedata = {
             "name": self._configuration["resource_name"].format(ytd=ytd),
             "description": self._configuration["resource_description"].format(ytd=ytd),
@@ -232,7 +229,7 @@ class Pipeline:
             f"hdx_hapi_rainfall_global_{ytd}yr.csv",
             self.data[ytd],
             resourcedata,
-            headers,
+            self._configuration["headers"],
             encoding="utf-8-sig",
         )
 

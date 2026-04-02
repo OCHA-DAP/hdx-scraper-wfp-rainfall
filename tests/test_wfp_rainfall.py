@@ -49,10 +49,6 @@ class TestWFPRainfall:
                                 "name": "climate-weather",
                                 "vocabulary_id": "b891512e-9516-4bf5-962a-7a289772a2a1",
                             },
-                            {
-                                "name": "hxl",
-                                "vocabulary_id": "b891512e-9516-4bf5-962a-7a289772a2a1",
-                            },
                         ],
                         "groups": [{"name": "world"}],
                         "dataset_date": "[2021-01-01T00:00:00 TO 2025-03-10T23:59:59]",

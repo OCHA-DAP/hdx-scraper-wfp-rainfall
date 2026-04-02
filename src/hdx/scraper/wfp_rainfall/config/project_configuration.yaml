@@ -4,32 +4,31 @@ resource_name: "Global Climate: Rainfall ({ytd} year(s) ago)"
 
 resource_description: "Rainfall data ({ytd} year(s) ago) from HDX HAPI, please see [the documentation](https://hdx-hapi.readthedocs.io/en/latest/data_usage_guides/climate/#rainfall) for more information"
 
-hxl_tags:
-  location_code: "#country+code"
-  has_hrp: "#meta+has_hrp"
-  in_gho: "#meta+in_gho"
-  provider_admin1_name: "#adm1+name+provider"
-  provider_admin2_name: "#adm2+name+provider"
-  admin1_code: "#adm1+code"
-  admin1_name: "#adm1+name"
-  admin2_code: "#adm2+code"
-  admin2_name: "#adm2+name"
-  admin_level: "#adm+level"
-  provider_admin1_code: "#adm1+code+provider"
-  provider_admin2_code: "#adm2+code+provider"
-  aggregation_period: "#aggregation+period"
-  rainfall: "#rainfall"
-  rainfall_long_term_average: "#rainfall+lta"
-  rainfall_anomaly_pct: "#rainfall+anomaly+pct"
-  number_pixels: "#meta+pixels+num"
-  version: "#meta+version"
-  reference_period_start: "#date+start"
-  reference_period_end: "#date+end"
-  dataset_hdx_id: "#meta+dataset_id"
-  resource_hdx_id: "#meta+resource_id"
-  warning: "#meta+warning"
-  error: "#meta+error"
+headers:
+  - location_code
+  - has_hrp
+  - in_gho
+  - provider_admin1_name
+  - provider_admin2_name
+  - admin1_code
+  - admin1_name
+  - admin2_code
+  - admin2_name
+  - admin_level
+  - provider_admin1_code
+  - provider_admin2_code
+  - aggregation_period
+  - rainfall
+  - rainfall_long_term_average
+  - rainfall_anomaly_pct
+  - number_pixels
+  - version
+  - reference_period_start
+  - reference_period_end
+  - dataset_hdx_id
+  - resource_hdx_id
+  - warning
+  - error
 
 tags:
   - "climate-weather"
-  - "hxl"

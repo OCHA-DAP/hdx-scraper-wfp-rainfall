@@ -47,4 +47,4 @@ jobs:
           context: .
           push: true
 
-          tags: public.ecr.aws/unocha/hdx-scraper-wfp_rainfall:${{ steps.tag_info.outputs.IMAGE_TAG }}
+          tags: public.ecr.aws/unocha/hdx-scraper-wfp-rainfall:${{ steps.tag_info.outputs.IMAGE_TAG }}

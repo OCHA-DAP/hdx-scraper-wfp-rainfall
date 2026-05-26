@@ -62,19 +62,17 @@ def main(
                     configuration, retriever, temp_folder, error_handler, today
                 )
                 wfp_rainfall.download_data()
-                ytds = sorted(wfp_rainfall.data.keys())
-                for ytd in ytds:
-                    dataset = wfp_rainfall.generate_global_dataset(ytd)
-                    dataset.update_from_yaml(
-                        path=script_dir_plus_file(
-                            join("config", "hdx_dataset_static.yaml"), main
-                        )
+                dataset = wfp_rainfall.generate_global_dataset()
+                dataset.update_from_yaml(
+                    path=script_dir_plus_file(
+                        join("config", "hdx_dataset_static.yaml"), main
                     )
-                    dataset.create_in_hdx(
-                        remove_additional_resources=False,
-                        match_resource_order=False,
-                        updated_by_script=_UPDATED_BY_SCRIPT,
-                    )
+                )
+                dataset.create_in_hdx(
+                    remove_additional_resources=True,
+                    match_resource_order=False,
+                    updated_by_script=_UPDATED_BY_SCRIPT,
+                )
 
 
 if __name__ == "__main__":

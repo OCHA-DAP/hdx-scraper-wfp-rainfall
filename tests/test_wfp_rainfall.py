@@ -37,7 +37,7 @@ class TestWFPRainfall:
                         parse_date("2025-07-01"),
                     )
                     wfp_rainfall.download_data(["MOZ"])
-                    dataset = wfp_rainfall.generate_global_dataset(1)
+                    dataset = wfp_rainfall.generate_global_dataset()
                     dataset.update_from_yaml(
                         path=join(config_dir, "hdx_dataset_static.yaml")
                     )
@@ -68,8 +68,13 @@ class TestWFPRainfall:
                         "dataset_preview": "no_preview",
                     }
                     resources = dataset.get_resources()
-                    assert len(resources) == 1
-                    assert resources[0] == {
+                    assert len(resources) == 5
+                    ytd1_resource = next(
+                        r
+                        for r in resources
+                        if r["name"] == "Global Climate: Rainfall (1 year(s) ago)"
+                    )
+                    assert ytd1_resource == {
                         "name": "Global Climate: Rainfall (1 year(s) ago)",
                         "description": "Rainfall data (1 year(s) ago) from HDX HAPI, please see [the documentation](https://hdx-hapi.readthedocs.io/en/latest/data_usage_guides/climate/#rainfall) for more information",
                         "p_coded": True,

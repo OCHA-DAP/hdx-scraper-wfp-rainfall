@@ -4,7 +4,6 @@
 import logging
 from datetime import datetime, timedelta
 from math import ceil
-from typing import List, Optional
 
 from hdx.api.configuration import Configuration
 from hdx.api.utilities.hdx_error_handler import HDXErrorHandler
@@ -58,7 +57,7 @@ class Pipeline:
             admin.load_pcode_formats()
             self._admins.append(admin)
 
-    def download_data(self, countryiso3s: Optional[List] = None) -> None:
+    def download_data(self, countryiso3s: list | None = None) -> None:
         self.get_pcodes()
         if not countryiso3s:
             countryiso3s = [
@@ -206,7 +205,7 @@ class Pipeline:
                     }
                     dict_of_lists_add(self.data, ytd, hapi_row)
 
-    def generate_global_dataset(self, ytd: int) -> Dataset:
+    def generate_global_dataset(self) -> Dataset:
         dataset = Dataset(
             {
                 "name": "hdx-hapi-rainfall",
@@ -219,18 +218,21 @@ class Pipeline:
         end_date = max(self.dates)
         dataset.set_time_period(start_date, end_date)
 
-        resourcedata = {
-            "name": self._configuration["resource_name"].format(ytd=ytd),
-            "description": self._configuration["resource_description"].format(ytd=ytd),
-            "p_coded": True,
-        }
-        dataset.generate_resource(
-            self._temp_dir,
-            f"hdx_hapi_rainfall_global_{ytd}yr.csv",
-            self.data[ytd],
-            resourcedata,
-            self._configuration["headers"],
-            encoding="utf-8-sig",
-        )
+        for ytd in sorted(self.data.keys()):
+            resourcedata = {
+                "name": self._configuration["resource_name"].format(ytd=ytd),
+                "description": self._configuration["resource_description"].format(
+                    ytd=ytd
+                ),
+                "p_coded": True,
+            }
+            dataset.generate_resource(
+                self._temp_dir,
+                f"hdx_hapi_rainfall_global_{ytd}yr.csv",
+                self.data[ytd],
+                resourcedata,
+                self._configuration["headers"],
+                encoding="utf-8-sig",
+            )
 
         return dataset

@@ -36,7 +36,7 @@ class TestWFPRainfall:
                         error_handler,
                         parse_date("2025-07-01"),
                     )
-                    wfp_rainfall.download_data(["MOZ"])
+                    wfp_rainfall.download_data(["MOZ", "AFG"])
                     dataset = wfp_rainfall.generate_global_dataset()
                     dataset.update_from_yaml(
                         path=join(config_dir, "hdx_dataset_static.yaml")

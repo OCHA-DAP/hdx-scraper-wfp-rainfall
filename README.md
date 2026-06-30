@@ -13,7 +13,41 @@ resources containing 5-year-to-date data are extracted; each row's YTD period is
 calculated from its reference date; admin level and P-codes are resolved via the
 HAPI admin utilities; and rainfall values (dekad, 1-month, and 3-month
 aggregations), long-term averages, and anomaly percentages are written to the
-HAPI output. It is run on demand.
+HAPI output. It runs every Monday at around 11 PM UTC and takes approximately
+12 minutes to complete.
+
+## Data Pipeline
+
+### API reads (~200 calls per run)
+
+- **Country rainfall datasets** (~one HDX read per country): locates each
+  country's rainfall dataset by the pattern `{iso3}-rainfall-subnational` and
+  downloads the resource containing 5-year-to-date data.
+
+### API writes (~200 calls per run)
+
+- **HAPI rainfall dataset** (up to 5 writes): one CSV resource per year-to-date
+  period (1yr through 5yr), each up to a few MB.
+
+### Temporary files
+
+- Minimal; data is processed in memory.
+
+### Uploaded files
+
+- Up to 5 CSV resources in the HAPI rainfall dataset, one per year-to-date period
+  (1yr, 2yr, 3yr, 4yr, 5yr), each up to a few MB.
+
+### Transformations
+
+1. **Dataset discovery**: country rainfall datasets are located on HDX using the
+   pattern `{iso3}-rainfall-subnational`.
+2. **YTD period calculation**: each row's year-to-date period is derived from its
+   reference date field.
+3. **Admin resolution**: admin level and P-codes are resolved via the HAPI admin
+   utilities.
+4. **Rainfall output**: dekad, 1-month, and 3-month aggregation values, long-term
+   averages, and anomaly percentages are written to the output CSV.
 
 ## Development
 
@@ -28,7 +62,6 @@ Development is currently done using Python 3.13. The environment can be created 
 This creates a .venv folder with the versions specified in the project's uv.lock file.
 
 ### Installing and running
-
 
 For the script to run, you will need to have a file called
 .hdx_configuration.yaml in your home directory containing your HDX key, e.g.:
@@ -68,14 +101,6 @@ To check if your changes pass pre-commit without committing, run:
 
 ```shell
     pre-commit run --all-files
-```
-
-### Testing
-
-To run the tests and view coverage, execute:
-
-```shell
-    uv run pytest
 ```
 
 ## Packages

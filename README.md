@@ -3,7 +3,17 @@
 [![Coverage Status](https://coveralls.io/repos/github/OCHA-DAP/hdx-scraper-wfp-rainfall/badge.svg?branch=main&ts=1)](https://coveralls.io/github/OCHA-DAP/hdx-scraper-wfp-rainfall?branch=main)
 [![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
 
-This script compiles country level WFP Rainfall data from HDX into country and global datasets for use in HAPI. It makes around 200 read calls and 200 write calls to HDX.
+This script compiles country-level WFP Rainfall data from HDX into country and
+global datasets for use in HAPI. It makes around 200 read calls to HDX
+(approximately one per country rainfall dataset) and around 200 write calls to
+HDX. The global HAPI dataset contains up to 5 CSV resources — one per
+year-to-date (YTD) period (1yr through 5yr), each up to a few MB. Country
+rainfall datasets are located on HDX by pattern (`{iso3}-rainfall-subnational`);
+resources containing 5-year-to-date data are extracted; each row's YTD period is
+calculated from its reference date; admin level and P-codes are resolved via the
+HAPI admin utilities; and rainfall values (dekad, 1-month, and 3-month
+aggregations), long-term averages, and anomaly percentages are written to the
+HAPI output. It is run on demand.
 
 ## Development
 

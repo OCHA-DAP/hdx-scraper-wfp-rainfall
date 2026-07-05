@@ -4,8 +4,8 @@
 [![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
 
 This script compiles country-level WFP Rainfall data from HDX into country and
-global datasets for use in HAPI. It makes around 200 read calls to HDX
-(approximately one per country rainfall dataset) and up to 5 write calls to
+global datasets for use in HAPI. It makes a read call to HDX
+per country rainfall dataset and up to 5 write calls to
 HDX. The global HAPI dataset contains up to 5 CSV resources — one per
 year-to-date (YTD) period (1yr through 5yr), each up to a few MB. Country
 rainfall datasets are located on HDX by pattern (`{iso3}-rainfall-subnational`);
@@ -13,14 +13,13 @@ resources containing 5-year-to-date data are extracted; each row's YTD period is
 calculated from its reference date; admin level and P-codes are resolved via the
 HAPI admin utilities; and rainfall values (dekad, 1-month, and 3-month
 aggregations), long-term averages, and anomaly percentages are written to the
-HAPI output. It runs every Monday at around 11 PM UTC and takes approximately
-12 minutes to complete.
+HAPI output.
 
 ## Data Pipeline
 
-### API reads (~200 calls per run)
+### API reads
 
-- **Country rainfall datasets** (~one HDX read per country): locates each
+- **Country rainfall datasets** (one HDX read per country): locates each
   country's rainfall dataset by the pattern `{iso3}-rainfall-subnational` and
   downloads the resource containing 5-year-to-date data.
 

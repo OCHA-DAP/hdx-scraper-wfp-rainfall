@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-**hdx-scraper-wfp-rainfall** compiles country-level WFP Rainfall data from HDX into country and global datasets for use in HAPI. It reads rainfall datasets from HDX (around 200 read calls) and creates updated global and country-level datasets (around 200 write calls).
+**hdx-scraper-wfp-rainfall** compiles country-level WFP Rainfall data from HDX into country and global datasets for use in HAPI. It reads a rainfall dataset from HDX per country and writes up to 5 HAPI dataset resources (one per year-to-date period, 1yr through 5yr).
 
 ## Commands
 

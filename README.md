@@ -5,7 +5,7 @@
 
 This script compiles country-level WFP Rainfall data from HDX into country and
 global datasets for use in HAPI. It makes around 200 read calls to HDX
-(approximately one per country rainfall dataset) and around 200 write calls to
+(approximately one per country rainfall dataset) and up to 5 write calls to
 HDX. The global HAPI dataset contains up to 5 CSV resources — one per
 year-to-date (YTD) period (1yr through 5yr), each up to a few MB. Country
 rainfall datasets are located on HDX by pattern (`{iso3}-rainfall-subnational`);
@@ -24,7 +24,7 @@ HAPI output. It runs every Monday at around 11 PM UTC and takes approximately
   country's rainfall dataset by the pattern `{iso3}-rainfall-subnational` and
   downloads the resource containing 5-year-to-date data.
 
-### API writes (~200 calls per run)
+### API writes (up to 5 calls per run)
 
 - **HAPI rainfall dataset** (up to 5 writes): one CSV resource per year-to-date
   period (1yr through 5yr), each up to a few MB.
